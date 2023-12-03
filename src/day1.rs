@@ -1,3 +1,5 @@
+use crate::util;
+
 fn parse_line(line: &str) -> u64 {
     let first = line.chars().find(|c| c.is_ascii_digit()).unwrap();
     let last = line.chars().rev().find(|c| c.is_ascii_digit()).unwrap();
@@ -40,15 +42,7 @@ fn convert_ascii(line: &String) -> String {
     linecvt
 }
 
-pub fn part1(test: bool) {
-    let filename;
-    if test {
-        filename = "test_input1.txt"
-    } else {
-        filename = "input1.txt"
-    }
-    // open test input
-    let input = std::fs::read_to_string("data/day1/".to_owned() + filename).unwrap();
+pub fn part1(input: String) {
     // for each line find first and last digit
     let mut sum = 0;
     for line in input.lines() {
@@ -58,15 +52,7 @@ pub fn part1(test: bool) {
     }
     dbg!(sum);
 }
-pub fn part2(test: bool) {
-    let filename;
-    if test {
-        filename = "test_input2.txt"
-    } else {
-        filename = "input2.txt"
-    }
-    // open test input
-    let input = std::fs::read_to_string("data/day1/".to_owned() + filename).unwrap();
+pub fn part2(input: String) {
     // for each line find first and last digit
     let mut sum = 0;
 
