@@ -1,5 +1,3 @@
-use crate::util;
-
 const MAXRED: i32 = 12;
 const MAXGREEN: i32 = 13;
 const MAXBLUE: i32 = 14;

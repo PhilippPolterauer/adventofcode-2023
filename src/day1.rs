@@ -1,5 +1,3 @@
-use crate::util;
-
 fn parse_line(line: &str) -> u64 {
     let first = line.chars().find(|c| c.is_ascii_digit()).unwrap();
     let last = line.chars().rev().find(|c| c.is_ascii_digit()).unwrap();

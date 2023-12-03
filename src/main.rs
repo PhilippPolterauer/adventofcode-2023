@@ -1,5 +1,6 @@
 mod day1;
 mod day2;
+mod day3;
 mod util;
 
 use clap::{arg, Parser};
@@ -30,6 +31,8 @@ fn main() {
         (1, 2) => day1::part2(input),
         (2, 1) => day2::part1(input),
         (2, 2) => day2::part2(input),
+        (3, 1) => day3::part1(input),
+        (3, 2) => day3::part2(input),
         _ => (),
     }
 }
