@@ -128,7 +128,6 @@ pub fn part1(input: String) {
     let mut valid = false;
     let mut sum = 0;
     for row in 0..rows {
-
         for col in 0..cols {
             let center = &mat.inner[row as usize][col as usize];
             let meta = &mat.meta[row as usize][col as usize];
@@ -151,4 +150,28 @@ pub fn part1(input: String) {
     dbg!(sum);
 }
 
-pub fn part2(input: String) {}
+pub fn part2(input: String) {
+    let mut innumber = false;
+    let mut number = 0;
+    let mut numberidx = 0;
+    let mut numbers = vec![];
+    let mut numbermap: Vec<Vec<usize>> = vec![];
+    for line in input.lines() {
+        let mut numberline = vec![];
+        for (charidx, char) in line.char_indices() {
+            if char.is_ascii_digit() {
+                number = number * 10 + (char as i32 - '0' as i32);
+                numberline.push(charidx);
+            } else {
+                if innumber {
+                    numbers.push(number);
+                    numberidx += 1;
+                }
+                number = 0;
+
+                innumber = false;
+            }
+        }
+        numbermap.push(numberline)
+    }
+}
