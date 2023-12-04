@@ -27,7 +27,29 @@ pub fn part1(input: String) {
     }
     dbg!(sum);
 }
-pub fn part2(input: String) {}
+pub fn part2(input: String) {
+    let mut sum = 0;
+    let mut cardidx = 0;
+    let ncards = input.lines().count();
+    let mut carddeck = vec![1; ncards];
+    for (cardidx, game) in input.lines().enumerate() {
+        let temp = game.split(":").nth(1).unwrap();
+        let mut iter = temp.split("|");
+        let winning = parse_numbers(iter.next().unwrap().to_string());
+        let numbers = parse_numbers(iter.next().unwrap().to_string());
+        let hits: Vec<_> = winning.intersection(&numbers).collect();
+        dbg!(&hits);
+
+        let stop = std::cmp::min(ncards - 1, cardidx + hits.len());
+        let cardcnt = carddeck[cardidx];
+        for idx in cardidx + 1..=stop {
+            carddeck[idx] += cardcnt
+        }
+    }
+    dbg!(&carddeck);
+    let sum = carddeck.iter().sum::<i32>();
+    dbg!(sum);
+}
 
 #[cfg(test)]
 mod tests {}
