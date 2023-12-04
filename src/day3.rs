@@ -1,3 +1,4 @@
+use std::collections::{HashMap, HashSet};
 struct CharMatrix {
     inner: Vec<Vec<char>>,
     meta: Vec<Vec<u8>>,
@@ -39,6 +40,14 @@ impl CharMatrix {
                 }
                 self.meta[i as usize][j as usize] = 1;
             }
+        }
+    }
+    fn neighbour_idzs(&self, row: i32, col: i32) -> Neighbours {
+        Neighbours {
+            inner: self.inner.clone(),
+            row,
+            col,
+            cnt: 0,
         }
     }
 }
@@ -149,29 +158,111 @@ pub fn part1(input: String) {
     }
     dbg!(sum);
 }
-
-pub fn part2(input: String) {
-    let mut innumber = false;
-    let mut number = 0;
-    let mut numberidx = 0;
-    let mut numbers = vec![];
-    let mut numbermap: Vec<Vec<usize>> = vec![];
-    for line in input.lines() {
-        let mut numberline = vec![];
-        for (charidx, char) in line.char_indices() {
-            if char.is_ascii_digit() {
-                number = number * 10 + (char as i32 - '0' as i32);
-                numberline.push(charidx);
+struct LinCharMatrix {
+    inner: Vec<char>,
+    linelength: usize,
+    nlines: usize,
+}
+impl LinCharMatrix {
+    fn from_string(input: String) -> Self {
+        let mut inner = vec![];
+        let mut linelength = 0;
+        let mut nlines = 0;
+        for line in input.lines() {
+            for char in line.chars() {
+                inner.push(char);
+            }
+            if linelength != 0 {
+                assert_eq!(linelength, line.len())
             } else {
-                if innumber {
-                    numbers.push(number);
-                    numberidx += 1;
-                }
-                number = 0;
+                linelength = line.len();
+            }
+            nlines += 1;
+        }
 
-                innumber = false;
+        Self {
+            inner,
+            linelength,
+            nlines,
+        }
+    }
+    fn shape(&self) -> (usize, usize) {
+        (self.nlines, self.linelength)
+    }
+    fn iter(&self) -> std::slice::Iter<'_, char> {
+         self.inner.iter()
+    }
+}
+
+
+fn neighbor_idzs(shape: (usize, usize), idx: usize) -> Vec<usize> {
+    let (nrow, ncol) = shape;
+    let row = idx / ncol;
+    let col = idx % ncol;
+
+    // Define kernel dimensions (width and height)
+    let kernel_width = 3; // Adjust according to your requirements
+    let kernel_height = 3; // Adjust according to your requirements
+
+    // Define a function to check if indices are within the allowed domain
+    fn is_valid_index(row: usize, col: usize, nrow: usize, ncol: usize) -> bool {
+        row < nrow && col < ncol
+    }
+
+    let mut neighbors = Vec::new();
+
+    // Iterate over the kernel region
+    for i in 0..kernel_height {
+        for j in 0..kernel_width {
+            let neighbor_row = row.wrapping_add(i);
+            let neighbor_col = col.wrapping_add(j);
+
+            // Check if the neighbor indices are within the allowed domain
+            if is_valid_index(neighbor_row, neighbor_col, nrow, ncol) {
+                neighbors.push(neighbor_row * ncol + neighbor_col);
             }
         }
-        numbermap.push(numberline)
+    }
+
+    neighbors
+}
+pub fn part2(input: String) {
+    let mat = LinCharMatrix::from_string(input);
+    let mut innumber = false;
+    let mut number = 0;
+    let mut numberidx = 0usize;
+    let mut numbers = vec![];
+    let mut numbermap = HashMap::new();
+    let shape = mat.shape();
+
+    for (idx, char) in mat.iter().enumerate() {
+        if char.is_ascii_digit() {
+            innumber = true;
+            number = number * 10 + (*char as i32 - '0' as i32);
+            numbermap.insert(idx, numberidx);
+            dbg!(&char);
+            dbg!(&idx);
+            dbg!(&numberidx);
+        } else {
+            if innumber {
+                dbg!(&number);
+                numbers.push(number);
+                numberidx += 1;
+            }
+            number = 0;
+            innumber = false;
+        }
+    }
+
+    let mut neighbor_numbers = HashSet::new();
+
+    let mut char_iter = mat.iter();
+    while let Some(gear_index) = char_iter.position(|c| *c == '*') {
+        for idx in neighbor_idzs(shape, gear_index) {
+            if let Some(numberidx) = numbermap.get(&idx) {
+                neighbor_numbers.insert(*numberidx);
+            }
+        }
+        dbg!(&neighbor_numbers);
     }
 }
