@@ -55,16 +55,6 @@ pub fn part1(input: String) {
 pub fn part2(input: String) {
     let mut solution = 0;
     for game in input.lines() {
-        let id = game
-            .split(":")
-            .next()
-            .unwrap()
-            .split(" ")
-            .nth(1)
-            .unwrap()
-            .parse::<u64>()
-            .unwrap();
-
         let shows = game.split(":").nth(1).unwrap().split(";");
 
         let (maxred, maxgreen, maxblue) = maxcubes(shows);

@@ -21,14 +21,6 @@ impl CharMatrix {
             meta,
         }
     }
-    fn neighbours(&self, row: i32, col: i32) -> Neighbours {
-        Neighbours {
-            inner: self.inner.clone(),
-            row,
-            col,
-            cnt: 0,
-        }
-    }
     fn shape(&self) -> (i32, i32) {
         (self.inner.len() as i32, self.inner[0].len() as i32)
     }
@@ -40,14 +32,6 @@ impl CharMatrix {
                 }
                 self.meta[i as usize][j as usize] = 1;
             }
-        }
-    }
-    fn neighbour_idzs(&self, row: i32, col: i32) -> Neighbours {
-        Neighbours {
-            inner: self.inner.clone(),
-            row,
-            col,
-            cnt: 0,
         }
     }
 }
