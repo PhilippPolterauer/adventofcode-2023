@@ -190,40 +190,31 @@ impl LinCharMatrix {
         (self.nlines, self.linelength)
     }
     fn iter(&self) -> std::slice::Iter<'_, char> {
-         self.inner.iter()
+        self.inner.iter()
     }
 }
 
-
 fn neighbor_idzs(shape: (usize, usize), idx: usize) -> Vec<usize> {
     let (nrow, ncol) = shape;
-    let row = idx / ncol;
-    let col = idx % ncol;
+    let crow = idx / ncol;
+    let ccol = idx % ncol;
 
-    // Define kernel dimensions (width and height)
-    let kernel_width = 3; // Adjust according to your requirements
-    let kernel_height = 3; // Adjust according to your requirements
-
-    // Define a function to check if indices are within the allowed domain
-    fn is_valid_index(row: usize, col: usize, nrow: usize, ncol: usize) -> bool {
-        row < nrow && col < ncol
-    }
+    let w = 1;
+    let h = 1;
+    let startrow = std::cmp::max(0, crow as u64 - h) as usize;
+    let startcol = std::cmp::max(0, ccol as u64 - w) as usize;
+    let endrow = std::cmp::min(nrow - 1, crow + h as usize) as usize;
+    let endcol = std::cmp::min(ncol - 1, ccol + w as usize) as usize;
 
     let mut neighbors = Vec::new();
-
-    // Iterate over the kernel region
-    for i in 0..kernel_height {
-        for j in 0..kernel_width {
-            let neighbor_row = row.wrapping_add(i);
-            let neighbor_col = col.wrapping_add(j);
-
-            // Check if the neighbor indices are within the allowed domain
-            if is_valid_index(neighbor_row, neighbor_col, nrow, ncol) {
-                neighbors.push(neighbor_row * ncol + neighbor_col);
+    for row in startrow..=endrow {
+        for col in startcol..=endcol {
+            if row == crow && col == ccol {
+                continue;
             }
+            neighbors.push(row * ncol + col);
         }
     }
-
     neighbors
 }
 pub fn part2(input: String) {
@@ -253,16 +244,31 @@ pub fn part2(input: String) {
             innumber = false;
         }
     }
-
-    let mut neighbor_numbers = HashSet::new();
-
-    let mut char_iter = mat.iter();
-    while let Some(gear_index) = char_iter.position(|c| *c == '*') {
+    dbg!(&numbermap);
+    let mut char_iter = mat.inner.iter().enumerate();
+    let mut sum = 0;
+    while let Some((gear_index, _)) = char_iter.find(|(_u, c)| **c == '*') {
+        let mut neighbor_numbers = HashSet::new();
         for idx in neighbor_idzs(shape, gear_index) {
             if let Some(numberidx) = numbermap.get(&idx) {
-                neighbor_numbers.insert(*numberidx);
+                neighbor_numbers.insert(numbers[*numberidx] as i64);
             }
         }
         dbg!(&neighbor_numbers);
+        if neighbor_numbers.len() == 2 {
+            let solution = neighbor_numbers.iter().product::<i64>();
+            dbg!(solution);
+            sum += solution
+        }
+    }
+    dbg!(sum);
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    #[test]
+    fn test_neighbor_idzs() {
+        assert_eq!(vec![0usize], neighbor_idzs((10, 10), 42))
     }
 }
