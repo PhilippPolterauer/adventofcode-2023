@@ -1,8 +1,4 @@
-use std::{
-    cmp::{max, min},
-    collections::{HashMap, HashSet},
-    vec,
-};
+use std::{time::Instant, vec};
 
 #[derive(Debug, Clone)]
 struct Range {
@@ -217,6 +213,7 @@ pub fn part1(input: String) {
     dbg!(solution);
 }
 pub fn part2(input: String) {
+    let start = Instant::now();
     let mut lines = input.lines();
 
     let mut seed_iter = lines.next().unwrap().split(" ");
@@ -240,13 +237,15 @@ pub fn part2(input: String) {
     let mut ranges = seed_ranges;
 
     for map in map_chain.iter() {
-        dbg!(&map);
+        // dbg!(&map);
         ranges = map.apply2ranges(ranges);
-        dbg!(&ranges);
+        // dbg!(&ranges);
     }
 
     let solution = ranges.iter().min_by_key(|r| r.start).unwrap().start;
+    let time = Instant::now() - start;
     dbg!(solution);
+    dbg!(time);
 }
 
 #[cfg(test)]
