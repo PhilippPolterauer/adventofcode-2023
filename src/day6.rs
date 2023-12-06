@@ -19,24 +19,42 @@ fn compute_limits(time: i64, distance: i64) -> (f64, f64) {
     (t / 2., (t.powi(2) / 4. - d).sqrt())
 }
 
-pub fn part1(input: String) {
+fn parse_races(input: String) -> Vec<(i64, i64)> {
     let times = parse_line(input.lines().nth(0).unwrap());
     let distance = parse_line(input.lines().nth(1).unwrap());
-    let races = times.iter().zip(distance);
+    times.into_iter().zip(distance).collect()
+}
+
+fn compute_solution_count((time, distance): (i64, i64)) -> i64 {
+    let (mid, delta) = compute_limits(time, distance);
+    let maxt = (mid + delta - f64::EPSILON.sqrt()).floor() as i64;
+    let mint = (mid - delta + f64::EPSILON.sqrt()).ceil() as i64;
+    maxt - mint + 1
+}
+
+pub fn part1(input: String) {
+    let races = parse_races(input);
 
     let mut solution = 1;
-    for (time, distance) in races {
-        dbg!(&time, &distance);
-        let (mid, delta) = compute_limits(*time, distance);
-        let maxt = (mid + delta - f64::EPSILON.sqrt()).floor() as i64;
-        let mint = (mid - delta + f64::EPSILON.sqrt()).ceil() as i64;
-        let count = maxt - mint + 1;
-        dbg!(mint, maxt, count);
+    for race in races {
+        dbg!(&race);
+        let count = compute_solution_count(race);
         solution *= count;
+        dbg!(count);
     }
-
-    
 
     dbg!(solution);
 }
-pub fn part2(input: String) {}
+pub fn part2(input: String) {
+    let races = parse_races(input);
+
+    let mut solution = 1;
+    for race in races {
+        dbg!(&race);
+        let count = compute_solution_count(race);
+        solution *= count;
+        dbg!(count);
+    }
+
+    dbg!(solution);
+}
