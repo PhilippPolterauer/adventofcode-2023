@@ -244,7 +244,7 @@ pub fn part2(input: String) {
 
     let solution = ranges.iter().min_by_key(|r| r.start).unwrap().start;
     let time = Instant::now() - start;
-    dbg!(solution);
+    // dbg!(solution);
     dbg!(time);
 }
 
