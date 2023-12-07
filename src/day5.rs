@@ -60,10 +60,6 @@ impl Range {
     }
 }
 
-struct MapingRange {
-    ranges: Vec<Range>,
-}
-
 #[derive(Debug)]
 struct RangeMap {
     dst: i64,
@@ -82,7 +78,7 @@ impl RangeMap {
         self.dst - self.src
     }
     fn apply(&self, number: &i64) -> Option<i64> {
-        let Self { src, dst, length } = self;
+        let Self { src, dst: _, length } = self;
         let offset = self.offset();
         if (*src..(src + length)).contains(number) {
             return Some(number + offset);
@@ -244,7 +240,7 @@ pub fn part2(input: String) {
 
     let solution = ranges.iter().min_by_key(|r| r.start).unwrap().start;
     let time = Instant::now() - start;
-    // dbg!(solution);
+    dbg!(solution);
     dbg!(time);
 }
 

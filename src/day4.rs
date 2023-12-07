@@ -28,8 +28,6 @@ pub fn part1(input: String) {
     dbg!(sum);
 }
 pub fn part2(input: String) {
-    let mut sum = 0;
-    let mut cardidx = 0;
     let ncards = input.lines().count();
     let mut carddeck = vec![1; ncards];
     for (cardidx, game) in input.lines().enumerate() {
