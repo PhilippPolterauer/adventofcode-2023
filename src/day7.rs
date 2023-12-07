@@ -1,5 +1,7 @@
 use std::cmp::Ordering;
 use std::collections::HashMap;
+use std::fmt::Debug;
+use std::fmt::Formatter;
 
 #[derive(Debug, PartialEq, Eq, PartialOrd, Ord)]
 enum HandType {
@@ -11,12 +13,43 @@ enum HandType {
     OnePair = 1,
     HighCard = 0,
 }
+
 #[derive(Debug, PartialEq, Eq)]
-struct Card {
+struct CardN {
     char: char,
 }
+#[derive(PartialEq, Eq)]
+struct CardJ {
+    char: char,
+}
+impl Debug for CardJ {
+    fn fmt(&self, fmt: &mut Formatter<'_>) -> Result<(), std::fmt::Error> {
+        fmt.write_str(&self.char.to_string())
+    }
+}
 
-impl Ord for Card {
+trait Card {
+    fn from_char(char: char) -> Self;
+    fn char(&self) -> &char;
+}
+impl Card for CardN {
+    fn from_char(char: char) -> Self {
+        Self { char }
+    }
+    fn char(&self) -> &char {
+        &self.char
+    }
+}
+impl Card for CardJ {
+    fn from_char(char: char) -> Self {
+        Self { char }
+    }
+    fn char(&self) -> &char {
+        &self.char
+    }
+}
+
+impl Ord for CardN {
     fn cmp(&self, other: &Self) -> Ordering {
         if self.char == other.char {
             return Ordering::Equal;
@@ -41,26 +74,112 @@ impl Ord for Card {
         }
     }
 }
+impl Ord for CardJ {
+    fn cmp(&self, other: &Self) -> Ordering {
+        if self.char == other.char {
+            return Ordering::Equal;
+        }
+        match (self.char, other.char) {
+            ('A', _) => Ordering::Greater,
+            ('J', _) => Ordering::Less,
+            ('K', 'A') => Ordering::Less,
+            ('K', _) => Ordering::Greater,
+            ('Q', 'A') => Ordering::Less,
+            ('Q', 'K') => Ordering::Less,
+            ('Q', _) => Ordering::Greater,
+            ('T', 'A') => Ordering::Less,
+            ('T', 'K') => Ordering::Less,
+            ('T', 'Q') => Ordering::Less,
+            ('T', _) => Ordering::Greater,
+            (_, 'J') => Ordering::Greater,
+            (a, b) => a.cmp(&b),
+        }
+    }
+}
 
-impl PartialOrd for Card {
+impl PartialOrd for CardN {
     fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
         Some(self.cmp(other))
     }
 }
 
+impl PartialOrd for CardJ {
+    fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
+        Some(self.cmp(other))
+    }
+}
+
+trait CardCount {
+    fn get_counts(&self) -> Vec<i64>;
+}
+
+impl CardCount for Vec<CardN> {
+    fn get_counts(&self) -> Vec<i64> {
+        let mut card_count: HashMap<&char, i64> = HashMap::new();
+        for card in self {
+            if let Some(count) = card_count.get_mut(card.char()) {
+                *count += 1;
+            } else {
+                card_count.insert(card.char(), 1);
+            }
+        }
+        let mut counts: Vec<i64> = card_count.into_values().collect();
+        counts.sort();
+        counts.reverse();
+        counts
+    }
+}
+impl CardCount for Vec<CardJ> {
+    fn get_counts(&self) -> Vec<i64> {
+        let mut card_count: HashMap<&char, i64> = HashMap::new();
+        for card in self {
+            if let Some(count) = card_count.get_mut(card.char()) {
+                *count += 1;
+            } else {
+                card_count.insert(card.char(), 1);
+            }
+        }
+
+        let joker = CardJ::from_char('J');
+        let jokers = card_count.remove(joker.char());
+
+        let mut counts: Vec<i64> = card_count.into_values().collect();
+
+        counts.sort();
+        counts.reverse();
+
+        if let Some(jokers) = jokers {
+            if let Some(val) = counts.get_mut(0) {
+                *val += jokers;
+                dbg!(&counts, &self);
+            } else {
+                counts.push(jokers);
+            }
+        }
+        counts
+    }
+}
+
 #[derive(Debug, PartialEq, Eq)]
-struct Hand {
-    cards: Vec<Card>,
+struct Hand<T>
+where
+    T: Card,
+{
+    cards: Vec<T>,
     bid: i64,
 }
-impl Hand {
+impl<T> Hand<T>
+where
+    T: Card,
+    Vec<T>: CardCount,
+{
     fn parse(line: &str) -> Self {
-        let cards: Vec<Card> = line
+        let cards: Vec<T> = line
             .split_whitespace()
             .next()
             .unwrap()
             .chars()
-            .map(|char| Card { char })
+            .map(|char| T::from_char(char))
             .collect();
         let bid = line
             .split_whitespace()
@@ -68,23 +187,11 @@ impl Hand {
             .unwrap()
             .parse::<i64>()
             .unwrap();
-        Hand { cards: cards, bid }
+        Hand { cards, bid }
     }
-    fn get_counts(&self) -> Vec<i64> {
-        let mut card_count: HashMap<&char, i64> = HashMap::new();
-        for card in self.cards.iter() {
-            if let Some(count) = card_count.get_mut(&card.char) {
-                *count += 1;
-            } else {
-                card_count.insert(&card.char, 1);
-            }
-        }
-        card_count.into_values().collect()
-    }
+
     fn get_type(&self) -> HandType {
-        let mut counts = self.get_counts();
-        counts.sort();
-        counts.reverse();
+        let counts = self.cards.get_counts();
 
         if counts[0] == 5 {
             HandType::FiveOfAKind
@@ -103,20 +210,28 @@ impl Hand {
         }
     }
 }
-impl Ord for Hand {
+impl<T> Ord for Hand<T>
+where
+    T: Card + Eq + Ord,
+    Vec<T>: CardCount,
+{
     fn cmp(&self, other: &Self) -> Ordering {
         (self.get_type(), &self.cards).cmp(&(other.get_type(), &other.cards))
     }
 }
 
-impl PartialOrd for Hand {
+impl<T> PartialOrd for Hand<T>
+where
+    T: Card + PartialEq + Ord,
+    Vec<T>: CardCount,
+{
     fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
         Some(self.cmp(other))
     }
 }
 
 pub fn part1(input: String) {
-    let mut hands: Vec<Hand> = input.lines().map(|l| Hand::parse(l)).collect();
+    let mut hands: Vec<Hand<CardN>> = input.lines().map(|l| Hand::parse(l)).collect();
     hands.sort();
     let mut solution = 0;
     for (rank, hand) in hands.iter().enumerate() {
@@ -125,4 +240,13 @@ pub fn part1(input: String) {
     }
     dbg!(solution);
 }
-pub fn part2(input: String) {}
+pub fn part2(input: String) {
+    let mut hands: Vec<Hand<CardJ>> = input.lines().map(|l| Hand::parse(l)).collect();
+    hands.sort();
+    let mut solution = 0;
+    for (rank, hand) in hands.iter().enumerate() {
+        dbg!(&hand);
+        solution += hand.bid * (rank as i64 + 1)
+    }
+    dbg!(solution);
+}
