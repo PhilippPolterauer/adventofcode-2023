@@ -2,7 +2,7 @@ fn parse_line(line: &str) -> u64 {
     let first = line.chars().find(|c| c.is_ascii_digit()).unwrap();
     let last = line.chars().rev().find(|c| c.is_ascii_digit()).unwrap();
     
-    u64::from_str_radix(&(first.to_string() + &last.to_string()), 10).unwrap()
+    (first.to_string() + &last.to_string()).parse::<u64>().unwrap()
 }
 
 const REPLACEMENTS: [(&str, char); 9] = [
@@ -17,7 +17,7 @@ const REPLACEMENTS: [(&str, char); 9] = [
     ("nine", '9'),
 ];
 
-fn matches_patterns(line: &String, start: usize, patterns: (&str, char)) -> Option<char> {
+fn matches_patterns(line: &str, start: usize, patterns: (&str, char)) -> Option<char> {
     let startline = line[start..].to_owned();
     let (text, number) = patterns;
     if startline.starts_with(text) || startline.starts_with(number) {

@@ -78,7 +78,11 @@ impl RangeMap {
         self.dst - self.src
     }
     fn apply(&self, number: &i64) -> Option<i64> {
-        let Self { src, dst: _, length } = self;
+        let Self {
+            src,
+            dst: _,
+            length,
+        } = self;
         let offset = self.offset();
         if (*src..(src + length)).contains(number) {
             return Some(number + offset);
@@ -107,7 +111,7 @@ impl RangeMap {
             )
         }
     }
-    fn apply2ranges(&self, ranges: &Vec<Range>) -> (Vec<Range>, Vec<Range>) {
+    fn apply2ranges(&self, ranges: &[Range]) -> (Vec<Range>, Vec<Range>) {
         // takes a vector of ranges and returns a vector of ranges representing the mapped regions
         let mut mapped_ranges = vec![];
         let mut unmapped_ranges = vec![];

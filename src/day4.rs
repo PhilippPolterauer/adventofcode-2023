@@ -40,8 +40,8 @@ pub fn part2(input: String) {
 
         let stop = std::cmp::min(ncards - 1, cardidx + hits.len());
         let cardcnt = carddeck[cardidx];
-        for idx in cardidx + 1..=stop {
-            carddeck[idx] += cardcnt
+        for card in carddeck.iter_mut().take(stop + 1).skip(cardidx + 1) {
+            *card += cardcnt;
         }
     }
     dbg!(&carddeck);
