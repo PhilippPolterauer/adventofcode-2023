@@ -1,11 +1,11 @@
 fn parse_line(line: &str) -> u64 {
     let first = line.chars().find(|c| c.is_ascii_digit()).unwrap();
     let last = line.chars().rev().find(|c| c.is_ascii_digit()).unwrap();
-    let num = u64::from_str_radix(&(first.to_string() + &last.to_string()), 10).unwrap();
-    return num;
+    
+    u64::from_str_radix(&(first.to_string() + &last.to_string()), 10).unwrap()
 }
 
-const REPLACEMENTS: [(&'static str, char); 9] = [
+const REPLACEMENTS: [(&str, char); 9] = [
     ("one", '1'),
     ("two", '2'),
     ("three", '3'),

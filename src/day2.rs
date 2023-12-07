@@ -10,8 +10,8 @@ where
     let mut greens = vec![];
     let mut blues = vec![];
     for show in shows {
-        for col in show.split(",") {
-            let mut split = col.split(" ");
+        for col in show.split(',') {
+            let mut split = col.split(' ');
             let cnt = split.nth(1).unwrap().parse::<i32>().unwrap();
             let color = split.next().unwrap();
             match color {
@@ -32,16 +32,16 @@ pub fn part1(input: String) {
     let mut solution = 0;
     for game in input.lines() {
         let id = game
-            .split(":")
+            .split(':')
             .next()
             .unwrap()
-            .split(" ")
+            .split(' ')
             .nth(1)
             .unwrap()
             .parse::<u64>()
             .unwrap();
 
-        let shows = game.split(":").nth(1).unwrap().split(";");
+        let shows = game.split(':').nth(1).unwrap().split(';');
 
         let (maxred, maxgreen, maxblue) = maxcubes(shows);
         let valid = maxred <= MAXRED && maxgreen <= MAXGREEN && maxblue <= MAXBLUE;
@@ -55,7 +55,7 @@ pub fn part1(input: String) {
 pub fn part2(input: String) {
     let mut solution = 0;
     for game in input.lines() {
-        let shows = game.split(":").nth(1).unwrap().split(";");
+        let shows = game.split(':').nth(1).unwrap().split(';');
 
         let (maxred, maxgreen, maxblue) = maxcubes(shows);
 

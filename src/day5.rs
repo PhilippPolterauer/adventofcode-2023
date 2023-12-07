@@ -68,7 +68,7 @@ struct RangeMap {
 }
 impl RangeMap {
     fn from_line(line: &str) -> Self {
-        let data = iter2i64(line.split(" "));
+        let data = iter2i64(line.split(' '));
         let src = data[1];
         let dst = data[0];
         let length = data[2];
@@ -163,7 +163,7 @@ fn iter2i64<'a>(seed_iter: impl Iterator<Item = &'a str>) -> Vec<i64> {
 fn parse_map<'a>(mut lines: impl Iterator<Item = &'a str>, start_marker: &str) -> Map {
     lines.find(|s| *s == start_marker);
     let mut maps = vec![];
-    while let Some(line) = lines.next() {
+    for line in lines {
         if line.is_empty() {
             break;
         }
@@ -171,7 +171,7 @@ fn parse_map<'a>(mut lines: impl Iterator<Item = &'a str>, start_marker: &str) -
     }
     Map { maps }
 }
-const MARKERS: [&'static str; 7] = [
+const MARKERS: [&str; 7] = [
     "seed-to-soil map:",
     "soil-to-fertilizer map:",
     "fertilizer-to-water map:",
@@ -183,13 +183,13 @@ const MARKERS: [&'static str; 7] = [
 pub fn part1(input: String) {
     let mut lines = input.lines();
 
-    let mut seed_iter = lines.next().unwrap().split(" ");
+    let mut seed_iter = lines.next().unwrap().split(' ');
     seed_iter.next();
-    let seeds = iter2i64(seed_iter.into_iter());
+    let seeds = iter2i64(seed_iter);
 
     let mut map_chain = vec![];
     for marker in MARKERS.iter() {
-        let map = parse_map(&mut lines, *marker);
+        let map = parse_map(&mut lines, marker);
         map_chain.push(map);
     }
 
@@ -212,9 +212,9 @@ pub fn part2(input: String) {
     let start = Instant::now();
     let mut lines = input.lines();
 
-    let mut seed_iter = lines.next().unwrap().split(" ");
+    let mut seed_iter = lines.next().unwrap().split(' ');
     seed_iter.next();
-    let seeds = iter2i64(seed_iter.into_iter());
+    let seeds = iter2i64(seed_iter);
 
     let mut seed_ranges = vec![];
     for i in (0..seeds.len()).step_by(2) {
@@ -226,7 +226,7 @@ pub fn part2(input: String) {
 
     let mut map_chain = vec![];
     for marker in MARKERS.iter() {
-        let map = parse_map(&mut lines, *marker);
+        let map = parse_map(&mut lines, marker);
         map_chain.push(map);
     }
 

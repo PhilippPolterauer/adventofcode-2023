@@ -20,7 +20,7 @@ fn compute_limits(time: i64, distance: i64) -> (f64, f64) {
 }
 
 fn parse_races(input: String) -> Vec<(i64, i64)> {
-    let times = parse_line(input.lines().nth(0).unwrap());
+    let times = parse_line(input.lines().next().unwrap());
     let distance = parse_line(input.lines().nth(1).unwrap());
     times.into_iter().zip(distance).collect()
 }
