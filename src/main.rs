@@ -1,3 +1,5 @@
+#![feature(hash_set_entry)]
+
 mod day1;
 mod day2;
 mod day3;
@@ -5,7 +7,7 @@ mod day4;
 mod day5;
 mod day6;
 mod day7;
-
+mod day8;
 mod util;
 
 use clap::{arg, Parser};
@@ -46,6 +48,8 @@ fn main() {
         (6, 2) => day6::part2(input),
         (7, 1) => day7::part1(input),
         (7, 2) => day7::part2(input),
+        (8, 1) => day8::part1(input),
+        (8, 2) => day8::part2(input),
         _ => (),
     }
 }
