@@ -45,7 +45,7 @@ pub fn part1(input: String) {
     let mut sum = 0;
     for line in input.lines() {
         let num = parse_line(line);
-        dbg!(num);
+        // dbg!(num);
         sum += num;
     }
     dbg!(sum);

@@ -48,7 +48,7 @@ pub fn part2(input: String) {
             diff = current.first().unwrap() - diff;
             current.insert(0, diff);
         }
-        dbg!(diff);
+        // dbg!(diff);
         solution += diff;
     }
     dbg!(solution);
