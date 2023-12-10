@@ -3,15 +3,15 @@ use std::collections::{HashMap, HashSet};
 type Node = [char; 3];
 #[derive(Debug, Clone)]
 enum Direction {
-    LEFT,
-    RIGHT,
+    Left,
+    Right,
 }
 
 impl Direction {
     fn from_char(char: char) -> Direction {
         match char {
-            'L' => Self::LEFT,
-            'R' => Self::RIGHT,
+            'L' => Self::Left,
+            'R' => Self::Right,
             _ => panic!("should not get here"),
         }
     }
@@ -24,9 +24,7 @@ impl MNode for Node {
     fn from_string(string: &str) -> Node {
         let temp: Vec<char> = string.chars().collect();
         let mut name: [char; 3] = ['0'; 3];
-        for i in 0..3 {
-            name[i] = temp[i];
-        }
+        name[..3].copy_from_slice(&temp[..3]);
         name
     }
 }
@@ -42,8 +40,8 @@ fn parse_line(line: &str) -> (Node, [Node; 2]) {
     let node = Node::from_string(split.next().unwrap());
     let mut children = split.next().unwrap().to_owned();
 
-    children = children.replace("(", "");
-    children = children.replace(")", "");
+    children = children.replace('(', "");
+    children = children.replace(')', "");
     let mut childrens = children.split(", ");
     let left = Node::from_string(childrens.next().unwrap());
     let right = Node::from_string(childrens.next().unwrap());
@@ -107,8 +105,8 @@ impl Puzzle {
         let children = self.graph[current];
 
         match direction {
-            Direction::LEFT => self.get(&children[0]),
-            Direction::RIGHT => self.get(&children[1]),
+            Direction::Left => self.get(&children[0]),
+            Direction::Right => self.get(&children[1]),
         }
     }
     fn get_node(&self, name: &str) -> Option<&Node> {
@@ -143,9 +141,7 @@ fn gcd(first: usize, second: usize) -> usize {
     let mut max = first;
     let mut min = second;
     if min > max {
-        let val = max;
-        max = min;
-        min = val;
+        std::mem::swap(&mut max, &mut min);
     }
 
     loop {

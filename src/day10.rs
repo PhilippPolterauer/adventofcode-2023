@@ -68,14 +68,14 @@ impl PipeKind {
     }
     fn directions(&self) -> Vec<Direction> {
         match self {
-            &PipeKind::NS => vec![Direction::North, Direction::South],
-            &PipeKind::EW => vec![Direction::East, Direction::West],
-            &PipeKind::NE => vec![Direction::North, Direction::East],
-            &PipeKind::NW => vec![Direction::North, Direction::West],
-            &PipeKind::SW => vec![Direction::South, Direction::West],
-            &PipeKind::SE => vec![Direction::South, Direction::East],
-            &PipeKind::G => vec![],
-            &PipeKind::S => vec![
+            PipeKind::NS => vec![Direction::North, Direction::South],
+            PipeKind::EW => vec![Direction::East, Direction::West],
+            PipeKind::NE => vec![Direction::North, Direction::East],
+            PipeKind::NW => vec![Direction::North, Direction::West],
+            PipeKind::SW => vec![Direction::South, Direction::West],
+            PipeKind::SE => vec![Direction::South, Direction::East],
+            PipeKind::G => vec![],
+            PipeKind::S => vec![
                 Direction::North,
                 Direction::East,
                 Direction::South,
@@ -112,14 +112,6 @@ impl Map {
         let shape = (data.len(), data.first().unwrap().len());
 
         Self { data, shape }
-    }
-
-    fn get(&self, idx: Idx) -> Option<&PipeKind> {
-        if (0..self.shape.0).contains(&idx.0) && (0..self.shape.1).contains(&idx.1) {
-            Some(&self[idx])
-        } else {
-            None
-        }
     }
 
     fn distance_map(&self) -> Vec<Vec<i64>> {
@@ -208,7 +200,7 @@ impl Map {
             .filter(|&dir| dir != &old_direction.oposite())
             .nth(0)
         {
-            if let Some(idx) = self.idx_direction(idx, &direction) {
+            if let Some(idx) = self.idx_direction(idx, direction) {
                 let kind = self[idx];
                 kind.directions().iter().find_map(|d| {
                     if &d.oposite() == direction {
@@ -224,16 +216,9 @@ impl Map {
             None
         }
     }
-    fn full_like<T: Clone + Copy>(&self, val: T) -> Vec<Vec<T>> {
-        let mut map = Vec::new();
-        for _ in 0..self.shape.0 {
-            map.push(vec![val; self.shape.1])
-        }
-        map
-    }
 }
 
-fn write_dist(idx: Idx, dist: i64, map: &mut Vec<Vec<i64>>) -> bool {
+fn write_dist(idx: Idx, dist: i64, map: &mut [Vec<i64>]) -> bool {
     let val = map[idx.0][idx.1];
     if val > dist || val == -1 {
         map[idx.0][idx.1] = dist;
@@ -252,7 +237,7 @@ pub fn part1(input: String) {
 
     let mut dist_map = map.distance_map();
     let mut distance = 1;
-    while (&pipes).len() > 0 {
+    while !pipes.is_empty() {
         pipes = pipes
             .iter()
             .filter_map(|(pipe, dir)| {
@@ -272,7 +257,7 @@ pub fn part1(input: String) {
     dbg!(solution);
 }
 
-fn print_map<T>(map: &Vec<Vec<T>>)
+fn print_map<T>(map: &[Vec<T>])
 where
     T: std::fmt::Display,
 {
@@ -280,7 +265,7 @@ where
         for col in row.iter() {
             print!("{}", col);
         }
-        print!("\n")
+        println!()
     }
 }
 
@@ -334,7 +319,7 @@ pub fn part2(input: String) {
 
         // print_map(&loop_map);
     }
-    
+
     // (pipe, dir) = map.next_pipe(&pipe, &dir).unwrap();
     // rot += get_rot(&olddir, &dir);
     // make sure we run clockwise
@@ -348,7 +333,7 @@ pub fn part2(input: String) {
 
     while pipe.idx != start {
         if let Some(idx) = map.idx_direction(pipe.idx, &dir.right()) {
-            if loop_map[idx.0][idx.1] != 'x' && loop_map[idx.0][idx.1] != 'I'  {
+            if loop_map[idx.0][idx.1] != 'x' && loop_map[idx.0][idx.1] != 'I' {
                 loop_map[idx.0][idx.1] = 'I';
                 insides.insert(idx);
             }
@@ -359,7 +344,7 @@ pub fn part2(input: String) {
     let mut active = insides.clone();
     // for each inside we look at all the neighbors an mark them if not
     while active.iter().len() > 0 {
-        let idxs: Vec<Idx> = active.iter().map(|idx| idx.clone()).collect();
+        let idxs: Vec<Idx> = active.iter().copied().collect();
         active.clear();
         for idx in idxs {
             for direction in ALL_DIRECTIONS {

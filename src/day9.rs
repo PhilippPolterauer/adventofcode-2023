@@ -18,7 +18,7 @@ pub fn part1(input: String) {
         let mut diff = 0;
         for current in number_stack.iter_mut().rev() {
             dbg!(&current);
-            diff = current.last().unwrap() + diff;
+            diff += current.last().unwrap();
             current.push(diff);
             dbg!(&current);
         }
