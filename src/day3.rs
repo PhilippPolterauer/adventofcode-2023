@@ -105,8 +105,7 @@ impl Iterator for Neighbours {
     }
 }
 
-pub fn part1(input: String) {
-    let mut mat = CharMatrix::from_string(input);
+pub fn part1(input: String) -> i64 {    let mut mat = CharMatrix::from_string(input);
     let (rows, cols) = mat.shape();
 
     for row in 0..rows {
@@ -140,7 +139,7 @@ pub fn part1(input: String) {
             }
         }
     }
-    dbg!(sum);
+    dbg!(sum) as i64
 }
 struct LinCharMatrix {
     inner: Vec<char>,
@@ -201,8 +200,7 @@ fn neighbor_idzs(shape: (usize, usize), idx: usize) -> Vec<usize> {
     }
     neighbors
 }
-pub fn part2(input: String) {
-    let mat = LinCharMatrix::from_string(input);
+pub fn part2(input: String) -> i64 {    let mat = LinCharMatrix::from_string(input);
     let mut innumber = false;
     let mut number = 0;
     let mut numberidx = 0usize;
@@ -241,11 +239,10 @@ pub fn part2(input: String) {
         dbg!(&neighbor_numbers);
         if neighbor_numbers.len() == 2 {
             let solution = neighbor_numbers.iter().product::<i64>();
-            dbg!(solution);
             sum += solution
         }
     }
-    dbg!(sum);
+    dbg!(sum) as i64
 }
 
 #[cfg(test)]
@@ -253,6 +250,9 @@ mod tests {
     use super::*;
     #[test]
     fn test_neighbor_idzs() {
-        assert_eq!(vec![0usize], neighbor_idzs((10, 10), 42))
+        assert_eq!(
+            vec![31, 32, 33, 41, 43, 51, 52, 53],
+            neighbor_idzs((10, 10), 42)
+        )
     }
 }

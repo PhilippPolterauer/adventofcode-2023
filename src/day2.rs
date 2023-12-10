@@ -28,7 +28,7 @@ where
         blues.iter().max().unwrap().to_owned(),
     )
 }
-pub fn part1(input: String) {
+pub fn part1(input: String) -> i64{
     let mut solution = 0;
     for game in input.lines() {
         let id = game
@@ -49,10 +49,10 @@ pub fn part1(input: String) {
             solution += id;
         }
     }
-    dbg!(solution);
+    dbg!(solution) as i64
 }
 
-pub fn part2(input: String) {
+pub fn part2(input: String) -> i64 {
     let mut solution = 0;
     for game in input.lines() {
         let shows = game.split(':').nth(1).unwrap().split(';');
@@ -61,5 +61,5 @@ pub fn part2(input: String) {
 
         solution += maxred * maxgreen * maxblue;
     }
-    dbg!(solution);
+    dbg!(solution) as i64
 }

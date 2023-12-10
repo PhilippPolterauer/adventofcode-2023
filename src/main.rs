@@ -13,6 +13,10 @@ mod day18;
 mod day19;
 mod day2;
 mod day20;
+mod day21;
+mod day22;
+mod day23;
+mod day24;
 mod day3;
 mod day4;
 mod day5;
@@ -37,15 +41,27 @@ struct Cli {
         help = "use short test dataset"
     )]
     runtest: bool,
+    #[arg(
+        short = 'd',
+        long = "data",
+        default_value = "data",
+        help = "path to the input data folder"
+    )]
+    data: String,
 }
 
 fn main() {
     let args = Cli::parse();
 
     println!("day: {:?}, part: {:?}", args.day, args.part);
-    let Cli { day, part, runtest } = args;
-    let input = util::load_file(day, part, runtest);
-    match (day, part) {
+    let Cli {
+        day,
+        part,
+        runtest,
+        data,
+    } = args;
+    let input = util::load_file(day, part, runtest, data);
+    let solution = match (day, part) {
         (1, 1) => day1::part1(input),
         (1, 2) => day1::part2(input),
         (2, 1) => day2::part1(input),
@@ -86,6 +102,15 @@ fn main() {
         (19, 2) => day19::part2(input),
         (20, 1) => day20::part1(input),
         (20, 2) => day20::part2(input),
-        _ => (),
-    }
+        (21, 1) => day21::part1(input),
+        (21, 2) => day21::part2(input),
+        (22, 1) => day22::part1(input),
+        (22, 2) => day22::part2(input),
+        (23, 1) => day23::part1(input),
+        (23, 2) => day23::part2(input),
+        (24, 1) => day24::part1(input),
+        (24, 2) => day24::part2(input),
+        _ => 0,
+    };
+    println!("{}", solution);
 }

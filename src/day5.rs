@@ -184,7 +184,7 @@ const MARKERS: [&str; 7] = [
     "temperature-to-humidity map:",
     "humidity-to-location map:",
 ];
-pub fn part1(input: String) {
+pub fn part1(input: String) -> i64 {
     let mut lines = input.lines();
 
     let mut seed_iter = lines.next().unwrap().split(' ');
@@ -210,10 +210,10 @@ pub fn part1(input: String) {
     }
     let solution = results.iter().min().unwrap();
 
-    dbg!(solution);
+    *dbg!(solution) as i64
 }
-pub fn part2(input: String) {
-    let start = Instant::now();
+pub fn part2(input: String) -> i64 {
+    let _start = Instant::now();
     let mut lines = input.lines();
 
     let mut seed_iter = lines.next().unwrap().split(' ');
@@ -243,9 +243,8 @@ pub fn part2(input: String) {
     }
 
     let solution = ranges.iter().min_by_key(|r| r.start).unwrap().start;
-    let time = Instant::now() - start;
-    dbg!(solution);
-    dbg!(time);
+
+    dbg!(solution) as i64
 }
 
 #[cfg(test)]

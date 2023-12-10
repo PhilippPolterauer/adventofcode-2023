@@ -42,7 +42,7 @@ fn convert_ascii(line: &String) -> String {
     linecvt
 }
 
-pub fn part1(input: String) {
+pub fn part1(input: String) -> i64{
     // for each line find first and last digit
     let mut sum = 0;
     for line in input.lines() {
@@ -50,9 +50,9 @@ pub fn part1(input: String) {
         // dbg!(num);
         sum += num;
     }
-    dbg!(sum);
+    dbg!(sum) as i64
 }
-pub fn part2(input: String) {
+pub fn part2(input: String) -> i64{
     // for each line find first and last digit
     let mut sum = 0;
 
@@ -65,5 +65,5 @@ pub fn part2(input: String) {
         dbg!(&num);
         sum += num;
     }
-    dbg!(sum);
+    dbg!(sum) as i64
 }

@@ -230,23 +230,21 @@ where
     }
 }
 
-pub fn part1(input: String) {
-    let mut hands: Vec<Hand<CardN>> = input.lines().map(Hand::parse).collect();
+pub fn part1(input: String) -> i64 {    let mut hands: Vec<Hand<CardN>> = input.lines().map(Hand::parse).collect();
     hands.sort();
     let mut solution = 0;
     for (rank, hand) in hands.iter().enumerate() {
         // dbg!(&hand);
         solution += hand.bid * (rank as i64 + 1)
     }
-    dbg!(solution);
+    dbg!(solution) as i64
 }
-pub fn part2(input: String) {
-    let mut hands: Vec<Hand<CardJ>> = input.lines().map(Hand::parse).collect();
+pub fn part2(input: String) -> i64 {    let mut hands: Vec<Hand<CardJ>> = input.lines().map(Hand::parse).collect();
     hands.sort();
     let mut solution = 0;
     for (rank, hand) in hands.iter().enumerate() {
         dbg!(&hand);
         solution += hand.bid * (rank as i64 + 1)
     }
-    dbg!(solution);
+    dbg!(solution) as i64
 }

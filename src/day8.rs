@@ -155,16 +155,14 @@ fn gcd(first: usize, second: usize) -> usize {
     }
 }
 
-pub fn part1(input: String) {
-    let puzzle = Puzzle::parse(input);
+pub fn part1(input: String) -> i64 {    let puzzle = Puzzle::parse(input);
     dbg!(&puzzle);
     let start = puzzle.get_node("AAA").unwrap();
     let stop = puzzle.get_node("ZZZ").unwrap();
     let solution = puzzle.traverse(start, stop);
-    dbg!(solution);
+    dbg!(solution) as i64
 }
-pub fn part2(input: String) {
-    let puzzle = Puzzle::parse(input);
+pub fn part2(input: String) -> i64 {    let puzzle = Puzzle::parse(input);
     dbg!(&puzzle);
     let starts = puzzle.starting_nodes();
 
@@ -175,5 +173,5 @@ pub fn part2(input: String) {
         solution = lcm(solution, step)
     }
 
-    dbg!(solution);
+    dbg!(solution) as i64
 }

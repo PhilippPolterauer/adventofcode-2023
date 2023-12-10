@@ -1,5 +1,4 @@
-pub fn part1(input: String) {
-    let mut solution = 0;
+pub fn part1(input: String) -> i64 {    let mut solution = 0;
     for line in input.lines() {
         let numbers: Vec<i64> = line
             .split_whitespace()
@@ -25,10 +24,9 @@ pub fn part1(input: String) {
         dbg!(diff);
         solution += diff;
     }
-    dbg!(solution);
+    dbg!(solution) as i64
 }
-pub fn part2(input: String) {
-    let mut solution = 0;
+pub fn part2(input: String) -> i64 {    let mut solution = 0;
     for line in input.lines() {
         let numbers: Vec<i64> = line
             .split_whitespace()
@@ -51,5 +49,5 @@ pub fn part2(input: String) {
         // dbg!(diff);
         solution += diff;
     }
-    dbg!(solution);
+    dbg!(solution) as i64
 }
