@@ -24,9 +24,11 @@ mod day8;
 mod day9;
 mod util;
 
+use std::time::Instant;
+
 use clap::{arg, Parser};
 
-/// Solving adventofcode Challenges
+/// Solving adventofcode challenges
 #[derive(Parser)]
 struct Cli {
     day: i32,
@@ -53,6 +55,13 @@ struct Cli {
         help = "repeat runs x1000 for profiling"
     )]
     profile: bool,
+    #[arg(
+        short = 'n',
+        long = "numruns",
+        default_value = "1000",
+        help = "how often to repat the function call for profiling"
+    )]
+    numruns: i64,
 }
 
 fn get_function(day: i32, part: i32) -> fn(&str) -> i64 {
@@ -119,16 +128,20 @@ fn main() {
         runtest,
         data,
         profile,
+        numruns,
     } = args;
     let input = util::load_file(day, part, runtest, data);
 
     let function = get_function(day, part);
 
     if profile {
-        let sol = function(&input);
-        dbg!(sol);
+        for _ in 0..numruns {
+            let sol = function(&input);
+            dbg!(sol);
+        }
     }
-
+    let t0 = Instant::now();
     let solution = function(&input);
+    println!("Duration: {} us", (Instant::now() - t0).as_micros());
     println!("Solution: {}", solution);
 }

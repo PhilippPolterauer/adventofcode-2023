@@ -8,7 +8,7 @@ the projects main entry is a cli program that can run all the days challenges.
 
 ```console
 $ adventofcode --help
-Solving adventofcode Challenges
+Solving adventofcode challenges
 
 Usage: adventofcode [OPTIONS] <DAY> <PART>
 
@@ -17,10 +17,11 @@ Arguments:
   <PART>  
 
 Options:
-  -t, --test         use short test dataset
-  -d, --data <DATA>  path to the input data folder [default: data]
-  -p, --profile      repeat runs x1000 for profiling
-  -h, --help         Print help
+  -t, --test               use short test dataset
+  -d, --data <DATA>        path to the input data folder [default: data]
+  -p, --profile            repeat runs x1000 for profiling
+  -n, --numruns <NUMRUNS>  how often to repat the function call for profiling [default: 1000]
+  -h, --help               Print help
 
 ```
 
@@ -30,6 +31,7 @@ so if you want to run they 1 part 2 with the test data set run
 $ adventofcode 1 1 -t
 day: 1, part: 1
 loading data from 'data/day1/test_input1.txt'
+Duration: 4 us
 Solution: 142
 
 ```
@@ -46,6 +48,7 @@ all solutions are found below
 $ adventofcode 1 1
 day: 1, part: 1
 loading data from 'data/day1/input1.txt'
+Duration: 601 us
 Solution: 55447
 
 ```
@@ -56,6 +59,7 @@ Solution: 55447
 $ adventofcode 1 2
 day: 1, part: 2
 loading data from 'data/day1/input2.txt'
+Duration: 21647 us
 Solution: 54706
 
 ```
@@ -68,6 +72,7 @@ Solution: 54706
 $ adventofcode 2 1
 day: 2, part: 1
 loading data from 'data/day2/input1.txt'
+Duration: 376 us
 Solution: 2348
 
 ```
@@ -78,6 +83,7 @@ Solution: 2348
 $ adventofcode 2 2
 day: 2, part: 2
 loading data from 'data/day2/input2.txt'
+Duration: 357 us
 Solution: 76008
 
 ```
@@ -90,6 +96,7 @@ Solution: 76008
 $ adventofcode 3 1
 day: 3, part: 1
 loading data from 'data/day3/input1.txt'
+Duration: 1596 us
 Solution: 528799
 
 ```
@@ -100,6 +107,7 @@ Solution: 528799
 $ adventofcode 3 2
 day: 3, part: 2
 loading data from 'data/day3/input2.txt'
+Duration: 3325 us
 Solution: 84907174
 
 ```
@@ -112,6 +120,7 @@ Solution: 84907174
 $ adventofcode 4 1
 day: 4, part: 1
 loading data from 'data/day4/input1.txt'
+Duration: 3641 us
 Solution: 20407
 
 ```
@@ -122,6 +131,7 @@ Solution: 20407
 $ adventofcode 4 2
 day: 4, part: 2
 loading data from 'data/day4/input2.txt'
+Duration: 3733 us
 Solution: 23806951
 
 ```
@@ -134,6 +144,7 @@ Solution: 23806951
 $ adventofcode 5 1
 day: 5, part: 1
 loading data from 'data/day5/input1.txt'
+Duration: 189 us
 Solution: 289863851
 
 ```
@@ -144,6 +155,7 @@ Solution: 289863851
 $ adventofcode 5 2
 day: 5, part: 2
 loading data from 'data/day5/input2.txt'
+Duration: 1579 us
 Solution: 60568880
 
 ```
@@ -156,6 +168,7 @@ Solution: 60568880
 $ adventofcode 6 1
 day: 6, part: 1
 loading data from 'data/day6/input1.txt'
+Duration: 11 us
 Solution: 4811940
 
 ```
@@ -166,6 +179,7 @@ Solution: 4811940
 $ adventofcode 6 2
 day: 6, part: 2
 loading data from 'data/day6/input2.txt'
+Duration: 7 us
 Solution: 30077773
 
 ```
@@ -178,6 +192,7 @@ Solution: 30077773
 $ adventofcode 7 1
 day: 7, part: 1
 loading data from 'data/day7/input1.txt'
+Duration: 43892 us
 Solution: 248179786
 
 ```
@@ -188,6 +203,7 @@ Solution: 248179786
 $ adventofcode 7 2
 day: 7, part: 2
 loading data from 'data/day7/input2.txt'
+Duration: 49496 us
 Solution: 247885995
 
 ```
@@ -200,6 +216,7 @@ Solution: 247885995
 $ adventofcode 8 1
 day: 8, part: 1
 loading data from 'data/day8/input1.txt'
+Duration: 8811 us
 Solution: 13939
 
 ```
@@ -210,6 +227,7 @@ Solution: 13939
 $ adventofcode 8 2
 day: 8, part: 2
 loading data from 'data/day8/input2.txt'
+Duration: 46861 us
 Solution: 8906539031197
 
 ```
@@ -222,6 +240,7 @@ Solution: 8906539031197
 $ adventofcode 9 1
 day: 9, part: 1
 loading data from 'data/day9/input1.txt'
+Duration: 2146 us
 Solution: 1684566095
 
 ```
@@ -232,6 +251,7 @@ Solution: 1684566095
 $ adventofcode 9 2
 day: 9, part: 2
 loading data from 'data/day9/input2.txt'
+Duration: 2007 us
 Solution: 1136
 
 ```
@@ -244,6 +264,7 @@ Solution: 1136
 $ adventofcode 10 1
 day: 10, part: 1
 loading data from 'data/day10/input1.txt'
+Duration: 4349 us
 Solution: 7066
 
 ```
@@ -254,6 +275,7 @@ Solution: 7066
 $ adventofcode 10 2
 day: 10, part: 2
 loading data from 'data/day10/input2.txt'
+Duration: 6517 us
 Solution: 401
 
 ```
