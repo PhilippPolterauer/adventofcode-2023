@@ -187,8 +187,8 @@ fn neighbor_idzs(shape: (usize, usize), idx: usize) -> Vec<usize> {
     let h = 1;
     let startrow = std::cmp::max(0, crow as u64 - h) as usize;
     let startcol = std::cmp::max(0, ccol as u64 - w) as usize;
-    let endrow = std::cmp::min(nrow - 1, crow + h as usize) as usize;
-    let endcol = std::cmp::min(ncol - 1, ccol + w as usize) as usize;
+    let endrow = std::cmp::min(nrow - 1, crow + h as usize);
+    let endcol = std::cmp::min(ncol - 1, ccol + w as usize);
 
     let mut neighbors = Vec::new();
     for row in startrow..=endrow {
