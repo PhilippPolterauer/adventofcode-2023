@@ -10,6 +10,16 @@ mod day7;
 mod day8;
 mod day9;
 mod day10;
+mod day11;
+mod day12;
+mod day13;
+mod day14;
+mod day15;
+mod day16;
+mod day17;
+mod day18;
+mod day19;
+mod day20;
 mod util;
 
 use clap::{arg, Parser};
@@ -56,6 +66,26 @@ fn main() {
         (9, 2) => day9::part2(input),
         (10, 1) => day10::part1(input),
         (10, 2) => day10::part2(input),
+        (11, 1) => day11::part1(input),
+        (11, 2) => day11::part2(input),
+        (12, 1) => day12::part1(input),
+        (12, 2) => day12::part2(input),
+        (13, 1) => day13::part1(input),
+        (13, 2) => day13::part2(input),
+        (14, 1) => day14::part1(input),
+        (14, 2) => day14::part2(input),
+        (15, 1) => day15::part1(input),
+        (15, 2) => day15::part2(input),
+        (16, 1) => day16::part1(input),
+        (16, 2) => day16::part2(input),
+        (17, 1) => day17::part1(input),
+        (17, 2) => day17::part2(input),
+        (18, 1) => day18::part1(input),
+        (18, 2) => day18::part2(input),
+        (19, 1) => day19::part1(input),
+        (19, 2) => day19::part2(input),
+        (20, 1) => day20::part1(input),
+        (20, 2) => day20::part2(input),
         _ => (),
     }
 }
