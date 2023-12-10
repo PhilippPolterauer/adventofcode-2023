@@ -4,7 +4,7 @@ struct CharMatrix {
     meta: Vec<Vec<u8>>,
 }
 impl CharMatrix {
-    fn from_string(input: String) -> CharMatrix {
+    fn from_string(input: &str) -> CharMatrix {
         let mut char_matrix: Vec<Vec<char>> = vec![];
         let mut meta = vec![];
         for line in input.lines() {
@@ -105,7 +105,7 @@ impl Iterator for Neighbours {
     }
 }
 
-pub fn part1(input: String) -> i64 {
+pub fn part1(input: &str) -> i64 {
     let mut mat = CharMatrix::from_string(input);
     let (rows, cols) = mat.shape();
 
@@ -148,7 +148,7 @@ struct LinCharMatrix {
     nlines: usize,
 }
 impl LinCharMatrix {
-    fn from_string(input: String) -> Self {
+    fn from_string(input: &str) -> Self {
         let mut inner = vec![];
         let mut linelength = 0;
         let mut nlines = 0;
@@ -201,7 +201,7 @@ fn neighbor_idzs(shape: (usize, usize), idx: usize) -> Vec<usize> {
     }
     neighbors
 }
-pub fn part2(input: String) -> i64 {
+pub fn part2(input: &str) -> i64 {
     let mat = LinCharMatrix::from_string(input);
     let mut innumber = false;
     let mut number = 0;

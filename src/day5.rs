@@ -184,7 +184,7 @@ const MARKERS: [&str; 7] = [
     "temperature-to-humidity map:",
     "humidity-to-location map:",
 ];
-pub fn part1(input: String) -> i64 {
+pub fn part1(input: &str) -> i64 {
     let mut lines = input.lines();
 
     let mut seed_iter = lines.next().unwrap().split(' ');
@@ -209,7 +209,7 @@ pub fn part1(input: String) -> i64 {
 
     *solution
 }
-pub fn part2(input: String) -> i64 {
+pub fn part2(input: &str) -> i64 {
     let _start = Instant::now();
     let mut lines = input.lines();
 

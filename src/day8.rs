@@ -49,7 +49,7 @@ fn parse_line(line: &str) -> (Node, [Node; 2]) {
 }
 
 impl Puzzle {
-    fn parse(input: String) -> Puzzle {
+    fn parse(input: &str) -> Puzzle {
         let mut lines = input.lines();
 
         let directions: Vec<Direction> = lines
@@ -153,7 +153,7 @@ fn gcd(first: usize, second: usize) -> usize {
     }
 }
 
-pub fn part1(input: String) -> i64 {
+pub fn part1(input: &str) -> i64 {
     let puzzle = Puzzle::parse(input);
 
     let start = puzzle.get_node("AAA").unwrap();
@@ -161,7 +161,7 @@ pub fn part1(input: String) -> i64 {
     let solution = puzzle.traverse(start, stop);
     solution as i64
 }
-pub fn part2(input: String) -> i64 {
+pub fn part2(input: &str) -> i64 {
     let puzzle = Puzzle::parse(input);
 
     let starts = puzzle.starting_nodes();

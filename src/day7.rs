@@ -229,7 +229,7 @@ where
     }
 }
 
-pub fn part1(input: String) -> i64 {
+pub fn part1(input: &str) -> i64 {
     let mut hands: Vec<Hand<CardN>> = input.lines().map(Hand::parse).collect();
     hands.sort();
     let mut solution = 0;
@@ -239,7 +239,7 @@ pub fn part1(input: String) -> i64 {
     }
     solution
 }
-pub fn part2(input: String) -> i64 {
+pub fn part2(input: &str) -> i64 {
     let mut hands: Vec<Hand<CardJ>> = input.lines().map(Hand::parse).collect();
     hands.sort();
     let mut solution = 0;

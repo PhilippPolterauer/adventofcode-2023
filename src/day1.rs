@@ -29,7 +29,7 @@ fn matches_patterns(line: &str, start: usize, patterns: (&str, char)) -> Option<
     }
 }
 
-fn convert_ascii(line: &String) -> String {
+fn convert_ascii(line: &str) -> String {
     let mut linecvt = "".to_owned();
 
     for start in 0..line.len() {
@@ -42,7 +42,7 @@ fn convert_ascii(line: &String) -> String {
     linecvt
 }
 
-pub fn part1(input: String) -> i64 {
+pub fn part1(input: &str) -> i64 {
     // for each line find first and last digit
     let mut sum = 0;
     for line in input.lines() {
@@ -52,12 +52,12 @@ pub fn part1(input: String) -> i64 {
     }
     sum as i64
 }
-pub fn part2(input: String) -> i64 {
+pub fn part2(input: &str) -> i64 {
     // for each line find first and last digit
     let mut sum = 0;
 
     for line in input.lines() {
-        let linecvt = convert_ascii(&line.to_string());
+        let linecvt = convert_ascii(line);
         let num = parse_line(linecvt.as_str());
         sum += num;
     }

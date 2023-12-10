@@ -1,4 +1,4 @@
-pub fn part1(input: String) -> i64 {
+pub fn part1(input: &str) -> i64 {
     let mut solution = 0;
     for line in input.lines() {
         let numbers: Vec<i64> = line
@@ -25,7 +25,7 @@ pub fn part1(input: String) -> i64 {
     }
     solution
 }
-pub fn part2(input: String) -> i64 {
+pub fn part2(input: &str) -> i64 {
     let mut solution = 0;
     for line in input.lines() {
         let numbers: Vec<i64> = line

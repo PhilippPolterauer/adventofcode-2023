@@ -19,7 +19,7 @@ fn compute_limits(time: i64, distance: i64) -> (f64, f64) {
     (t / 2., (t.powi(2) / 4. - d).sqrt())
 }
 
-fn parse_races(input: String) -> Vec<(i64, i64)> {
+fn parse_races(input: &str) -> Vec<(i64, i64)> {
     let times = parse_line(input.lines().next().unwrap());
     let distance = parse_line(input.lines().nth(1).unwrap());
     times.into_iter().zip(distance).collect()
@@ -32,7 +32,7 @@ fn compute_solution_count((time, distance): (i64, i64)) -> i64 {
     maxt - mint + 1
 }
 
-pub fn part1(input: String) -> i64 {
+pub fn part1(input: &str) -> i64 {
     let races = parse_races(input);
 
     let mut solution = 1;
@@ -42,7 +42,7 @@ pub fn part1(input: String) -> i64 {
     }
     solution
 }
-pub fn part2(input: String) -> i64 {
+pub fn part2(input: &str) -> i64 {
     let races = parse_races(input);
 
     let mut solution = 1;

@@ -19,6 +19,7 @@ Arguments:
 Options:
   -t, --test         use short test dataset
   -d, --data <DATA>  path to the input data folder [default: data]
+  -p, --profile      repeat runs x1000 for profiling
   -h, --help         Print help
 
 ```
