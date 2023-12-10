@@ -105,7 +105,8 @@ impl Iterator for Neighbours {
     }
 }
 
-pub fn part1(input: String) -> i64 {    let mut mat = CharMatrix::from_string(input);
+pub fn part1(input: String) -> i64 {
+    let mut mat = CharMatrix::from_string(input);
     let (rows, cols) = mat.shape();
 
     for row in 0..rows {
@@ -139,7 +140,7 @@ pub fn part1(input: String) -> i64 {    let mut mat = CharMatrix::from_string(in
             }
         }
     }
-    dbg!(sum) as i64
+    sum as i64
 }
 struct LinCharMatrix {
     inner: Vec<char>,
@@ -200,7 +201,8 @@ fn neighbor_idzs(shape: (usize, usize), idx: usize) -> Vec<usize> {
     }
     neighbors
 }
-pub fn part2(input: String) -> i64 {    let mat = LinCharMatrix::from_string(input);
+pub fn part2(input: String) -> i64 {
+    let mat = LinCharMatrix::from_string(input);
     let mut innumber = false;
     let mut number = 0;
     let mut numberidx = 0usize;
@@ -213,12 +215,8 @@ pub fn part2(input: String) -> i64 {    let mat = LinCharMatrix::from_string(inp
             innumber = true;
             number = number * 10 + (*char as i32 - '0' as i32);
             numbermap.insert(idx, numberidx);
-            dbg!(&char);
-            dbg!(&idx);
-            dbg!(&numberidx);
         } else {
             if innumber {
-                dbg!(&number);
                 numbers.push(number);
                 numberidx += 1;
             }
@@ -226,7 +224,6 @@ pub fn part2(input: String) -> i64 {    let mat = LinCharMatrix::from_string(inp
             innumber = false;
         }
     }
-    dbg!(&numbermap);
     let mut char_iter = mat.inner.iter().enumerate();
     let mut sum = 0;
     while let Some((gear_index, _)) = char_iter.find(|(_u, c)| **c == '*') {
@@ -236,13 +233,13 @@ pub fn part2(input: String) -> i64 {    let mat = LinCharMatrix::from_string(inp
                 neighbor_numbers.insert(numbers[*numberidx] as i64);
             }
         }
-        dbg!(&neighbor_numbers);
+
         if neighbor_numbers.len() == 2 {
             let solution = neighbor_numbers.iter().product::<i64>();
             sum += solution
         }
     }
-    dbg!(sum) as i64
+    sum as i64
 }
 
 #[cfg(test)]

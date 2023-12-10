@@ -112,5 +112,5 @@ fn main() {
         (24, 2) => day24::part2(input),
         _ => 0,
     };
-    println!("{}", solution);
+    println!("Solution: {}", solution);
 }

@@ -4,7 +4,7 @@ pub fn part1(input: String) -> i64 {    let mut solution = 0;
             .split_whitespace()
             .map(|s| s.parse::<i64>().unwrap())
             .collect();
-        dbg!(&numbers);
+        
         let mut number_stack = vec![numbers.clone()];
         let mut current = numbers;
         let mut done = false;
@@ -16,15 +16,15 @@ pub fn part1(input: String) -> i64 {    let mut solution = 0;
         }
         let mut diff = 0;
         for current in number_stack.iter_mut().rev() {
-            dbg!(&current);
+            
             diff += current.last().unwrap();
             current.push(diff);
-            dbg!(&current);
+            
         }
-        dbg!(diff);
+        
         solution += diff;
     }
-    dbg!(solution) as i64
+    solution as i64
 }
 pub fn part2(input: String) -> i64 {    let mut solution = 0;
     for line in input.lines() {
@@ -46,8 +46,8 @@ pub fn part2(input: String) -> i64 {    let mut solution = 0;
             diff = current.first().unwrap() - diff;
             current.insert(0, diff);
         }
-        // dbg!(diff);
+        // 
         solution += diff;
     }
-    dbg!(solution) as i64
+    solution as i64
 }

@@ -70,7 +70,7 @@ impl Puzzle {
             graph.insert(node, [left, right]);
         }
 
-        dbg!(&graph);
+        
 
         Puzzle {
             directions,
@@ -85,7 +85,7 @@ impl Puzzle {
         while current != stop {
             let direction = &self.directions[step % ndir];
             current = self.next(current, direction).unwrap();
-            dbg!(&current);
+            
             step += 1;
         }
         step
@@ -156,14 +156,14 @@ fn gcd(first: usize, second: usize) -> usize {
 }
 
 pub fn part1(input: String) -> i64 {    let puzzle = Puzzle::parse(input);
-    dbg!(&puzzle);
+    
     let start = puzzle.get_node("AAA").unwrap();
     let stop = puzzle.get_node("ZZZ").unwrap();
     let solution = puzzle.traverse(start, stop);
-    dbg!(solution) as i64
+    solution as i64
 }
 pub fn part2(input: String) -> i64 {    let puzzle = Puzzle::parse(input);
-    dbg!(&puzzle);
+    
     let starts = puzzle.starting_nodes();
 
     let steps: Vec<usize> = starts.iter().map(|start| puzzle.traverse2(start)).collect();
@@ -173,5 +173,5 @@ pub fn part2(input: String) -> i64 {    let puzzle = Puzzle::parse(input);
         solution = lcm(solution, step)
     }
 
-    dbg!(solution) as i64
+    solution as i64
 }

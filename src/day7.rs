@@ -151,7 +151,6 @@ impl CardCount for Vec<CardJ> {
         if let Some(jokers) = jokers {
             if let Some(val) = counts.get_mut(0) {
                 *val += jokers;
-                dbg!(&counts, &self);
             } else {
                 counts.push(jokers);
             }
@@ -234,17 +233,16 @@ pub fn part1(input: String) -> i64 {    let mut hands: Vec<Hand<CardN>> = input.
     hands.sort();
     let mut solution = 0;
     for (rank, hand) in hands.iter().enumerate() {
-        // dbg!(&hand);
+        // &hand;
         solution += hand.bid * (rank as i64 + 1)
     }
-    dbg!(solution) as i64
+    solution
 }
 pub fn part2(input: String) -> i64 {    let mut hands: Vec<Hand<CardJ>> = input.lines().map(Hand::parse).collect();
     hands.sort();
     let mut solution = 0;
     for (rank, hand) in hands.iter().enumerate() {
-        dbg!(&hand);
         solution += hand.bid * (rank as i64 + 1)
     }
-    dbg!(solution) as i64
+    solution
 }

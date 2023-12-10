@@ -49,7 +49,7 @@ pub fn part1(input: String) -> i64{
             solution += id;
         }
     }
-    dbg!(solution) as i64
+    solution as i64
 }
 
 pub fn part2(input: String) -> i64 {
@@ -61,5 +61,5 @@ pub fn part2(input: String) -> i64 {
 
         solution += maxred * maxgreen * maxblue;
     }
-    dbg!(solution) as i64
+    solution as i64
 }

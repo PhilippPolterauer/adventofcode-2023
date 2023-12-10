@@ -197,11 +197,8 @@ pub fn part1(input: String) -> i64 {
         map_chain.push(map);
     }
 
-    dbg!(&map_chain);
-
     let mut results = vec![];
     for seed in seeds.iter() {
-        dbg!(&seed);
         let mut maped = seed.to_owned();
         for map in map_chain.iter() {
             maped = map.apply(maped);
@@ -210,7 +207,7 @@ pub fn part1(input: String) -> i64 {
     }
     let solution = results.iter().min().unwrap();
 
-    *dbg!(solution) as i64
+    *solution as i64
 }
 pub fn part2(input: String) -> i64 {
     let _start = Instant::now();
@@ -237,14 +234,14 @@ pub fn part2(input: String) -> i64 {
     let mut ranges = seed_ranges;
 
     for map in map_chain.iter() {
-        // dbg!(&map);
+        // &map);
         ranges = map.apply2ranges(ranges);
-        // dbg!(&ranges);
+        // &ranges);
     }
 
     let solution = ranges.iter().min_by_key(|r| r.start).unwrap().start;
 
-    dbg!(solution) as i64
+    solution as i64
 }
 
 #[cfg(test)]

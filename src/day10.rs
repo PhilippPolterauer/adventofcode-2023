@@ -275,10 +275,9 @@ pub fn part1(input: String) -> i64 {    let map = Map::from_lines(input);
             .collect();
         distance += 1;
     }
-    // dbg!(dist_map);
-    dbg!(pipes);
+    // dist_map);
     let solution = dist_map.iter().flatten().max().unwrap();
-    *dbg!(solution) as i64
+    *solution as i64
 }
 
 fn get_rot(olddir: &Direction, dir: &Direction) -> i64 {
@@ -376,6 +375,5 @@ pub fn part2(input: String) -> i64 {    let map = Map::from_lines(input.clone())
     }
 
     let solution = insides.len();
-    dbg!(rot);
-    dbg!(solution) as i64
+    solution as i64
 }

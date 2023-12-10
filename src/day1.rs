@@ -42,28 +42,24 @@ fn convert_ascii(line: &String) -> String {
     linecvt
 }
 
-pub fn part1(input: String) -> i64{
+pub fn part1(input: String) -> i64 {
     // for each line find first and last digit
     let mut sum = 0;
     for line in input.lines() {
         let num = parse_line(line);
-        // dbg!(num);
+        // num);
         sum += num;
     }
-    dbg!(sum) as i64
+    sum as i64
 }
-pub fn part2(input: String) -> i64{
+pub fn part2(input: String) -> i64 {
     // for each line find first and last digit
     let mut sum = 0;
 
     for line in input.lines() {
         let linecvt = convert_ascii(&line.to_string());
         let num = parse_line(linecvt.as_str());
-        println!();
-        dbg!(line);
-        dbg!(&linecvt);
-        dbg!(&num);
         sum += num;
     }
-    dbg!(sum) as i64
+    sum as i64
 }

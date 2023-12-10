@@ -17,14 +17,14 @@ pub fn part1(input: String) -> i64 {    let mut sum = 0;
         let winning = parse_numbers(iter.next().unwrap().to_string());
         let numbers = parse_numbers(iter.next().unwrap().to_string());
         let hits: Vec<_> = winning.intersection(&numbers).collect();
-        dbg!(&hits);
+        
         if !hits.is_empty() {
             let add = i32::pow(2, (hits.len() - 1) as u32);
             sum += add;
-            dbg!(add);
+            
         }
     }
-    dbg!(sum) as i64
+    sum as i64
 }
 pub fn part2(input: String) -> i64 {    let ncards = input.lines().count();
     let mut carddeck = vec![1; ncards];
@@ -34,7 +34,7 @@ pub fn part2(input: String) -> i64 {    let ncards = input.lines().count();
         let winning = parse_numbers(iter.next().unwrap().to_string());
         let numbers = parse_numbers(iter.next().unwrap().to_string());
         let hits: Vec<_> = winning.intersection(&numbers).collect();
-        dbg!(&hits);
+        
 
         let stop = std::cmp::min(ncards - 1, cardidx + hits.len());
         let cardcnt = carddeck[cardidx];
@@ -42,9 +42,9 @@ pub fn part2(input: String) -> i64 {    let ncards = input.lines().count();
             *card += cardcnt;
         }
     }
-    dbg!(&carddeck);
+    
     let sum = carddeck.iter().sum::<i32>();
-    dbg!(sum) as i64
+    sum as i64
 }
 
 #[cfg(test)]

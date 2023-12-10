@@ -36,23 +36,19 @@ pub fn part1(input: String) -> i64 {    let races = parse_races(input);
 
     let mut solution = 1;
     for race in races {
-        dbg!(&race);
         let count = compute_solution_count(race);
         solution *= count;
-        dbg!(count);
-    }
 
-    dbg!(solution) as i64
+    }
+    solution as i64
 }
 pub fn part2(input: String) -> i64 {    let races = parse_races(input);
 
     let mut solution = 1;
     for race in races {
-        dbg!(&race);
         let count = compute_solution_count(race);
         solution *= count;
-        dbg!(count);
     }
 
-    dbg!(solution) as i64
+    solution as i64
 }
