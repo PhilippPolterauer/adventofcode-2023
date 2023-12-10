@@ -70,8 +70,6 @@ impl Puzzle {
             graph.insert(node, [left, right]);
         }
 
-        
-
         Puzzle {
             directions,
             nodes,
@@ -85,7 +83,7 @@ impl Puzzle {
         while current != stop {
             let direction = &self.directions[step % ndir];
             current = self.next(current, direction).unwrap();
-            
+
             step += 1;
         }
         step
@@ -155,15 +153,17 @@ fn gcd(first: usize, second: usize) -> usize {
     }
 }
 
-pub fn part1(input: String) -> i64 {    let puzzle = Puzzle::parse(input);
-    
+pub fn part1(input: String) -> i64 {
+    let puzzle = Puzzle::parse(input);
+
     let start = puzzle.get_node("AAA").unwrap();
     let stop = puzzle.get_node("ZZZ").unwrap();
     let solution = puzzle.traverse(start, stop);
     solution as i64
 }
-pub fn part2(input: String) -> i64 {    let puzzle = Puzzle::parse(input);
-    
+pub fn part2(input: String) -> i64 {
+    let puzzle = Puzzle::parse(input);
+
     let starts = puzzle.starting_nodes();
 
     let steps: Vec<usize> = starts.iter().map(|start| puzzle.traverse2(start)).collect();

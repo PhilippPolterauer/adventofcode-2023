@@ -10,23 +10,24 @@ fn parse_numbers(input: String) -> HashSet<i32> {
     }
     numbers
 }
-pub fn part1(input: String) -> i64 {    let mut sum = 0;
+pub fn part1(input: String) -> i64 {
+    let mut sum = 0;
     for game in input.lines() {
         let temp = game.split(':').nth(1).unwrap();
         let mut iter = temp.split('|');
         let winning = parse_numbers(iter.next().unwrap().to_string());
         let numbers = parse_numbers(iter.next().unwrap().to_string());
         let hits: Vec<_> = winning.intersection(&numbers).collect();
-        
+
         if !hits.is_empty() {
             let add = i32::pow(2, (hits.len() - 1) as u32);
             sum += add;
-            
         }
     }
     sum as i64
 }
-pub fn part2(input: String) -> i64 {    let ncards = input.lines().count();
+pub fn part2(input: String) -> i64 {
+    let ncards = input.lines().count();
     let mut carddeck = vec![1; ncards];
     for (cardidx, game) in input.lines().enumerate() {
         let temp = game.split(':').nth(1).unwrap();
@@ -34,7 +35,6 @@ pub fn part2(input: String) -> i64 {    let ncards = input.lines().count();
         let winning = parse_numbers(iter.next().unwrap().to_string());
         let numbers = parse_numbers(iter.next().unwrap().to_string());
         let hits: Vec<_> = winning.intersection(&numbers).collect();
-        
 
         let stop = std::cmp::min(ncards - 1, cardidx + hits.len());
         let cardcnt = carddeck[cardidx];
@@ -42,7 +42,7 @@ pub fn part2(input: String) -> i64 {    let ncards = input.lines().count();
             *card += cardcnt;
         }
     }
-    
+
     let sum = carddeck.iter().sum::<i32>();
     sum as i64
 }

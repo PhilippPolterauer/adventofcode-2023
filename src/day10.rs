@@ -253,7 +253,8 @@ fn write_dist(idx: Idx, dist: i64, map: &mut [Vec<i64>]) -> bool {
     }
 }
 
-pub fn part1(input: String) -> i64 {    let map = Map::from_lines(input);
+pub fn part1(input: String) -> i64 {
+    let map = Map::from_lines(input);
 
     let start = map.find_start().unwrap();
 
@@ -309,7 +310,8 @@ fn get_rot(olddir: &Direction, dir: &Direction) -> i64 {
     }
 }
 
-pub fn part2(input: String) -> i64 {    let map = Map::from_lines(input.clone());
+pub fn part2(input: String) -> i64 {
+    let map = Map::from_lines(input.clone());
 
     let start = map.find_start().unwrap();
 

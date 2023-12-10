@@ -32,17 +32,18 @@ fn compute_solution_count((time, distance): (i64, i64)) -> i64 {
     maxt - mint + 1
 }
 
-pub fn part1(input: String) -> i64 {    let races = parse_races(input);
+pub fn part1(input: String) -> i64 {
+    let races = parse_races(input);
 
     let mut solution = 1;
     for race in races {
         let count = compute_solution_count(race);
         solution *= count;
-
     }
     solution
 }
-pub fn part2(input: String) -> i64 {    let races = parse_races(input);
+pub fn part2(input: String) -> i64 {
+    let races = parse_races(input);
 
     let mut solution = 1;
     for race in races {

@@ -28,7 +28,7 @@ where
         blues.iter().max().unwrap().to_owned(),
     )
 }
-pub fn part1(input: String) -> i64{
+pub fn part1(input: String) -> i64 {
     let mut solution = 0;
     for game in input.lines() {
         let id = game
