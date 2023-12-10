@@ -1,5 +1,7 @@
 # Adventofcode 2023
 
+[![CI](https://github.com/PhilippPolterauer/adventofcode-2023/actions/workflows/ci.yaml/badge.svg)](https://github.com/PhilippPolterauer/adventofcode-2023/actions/workflows/ci.yaml)
+
 ## Useage
 
 the projects main entry is a cli program that can run all the days challenges.
