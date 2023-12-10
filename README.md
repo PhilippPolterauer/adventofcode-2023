@@ -57,22 +57,6 @@ Solution: 54706
 
 ```
 
-```console
-$ adventofcode 2 1
-day: 2, part: 1
-loading data from 'data/day2/input1.txt'
-Solution: 2348
-
-```
-
-```console
-$ adventofcode 2 2
-day: 2, part: 2
-loading data from 'data/day2/input2.txt'
-Solution: 76008
-
-```
-
 ### Day 2
 
 #### Part 1
