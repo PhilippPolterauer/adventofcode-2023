@@ -40,7 +40,7 @@ pub fn part1(input: String) -> i64 {    let races = parse_races(input);
         solution *= count;
 
     }
-    solution as i64
+    solution
 }
 pub fn part2(input: String) -> i64 {    let races = parse_races(input);
 
@@ -50,5 +50,5 @@ pub fn part2(input: String) -> i64 {    let races = parse_races(input);
         solution *= count;
     }
 
-    solution as i64
+    solution
 }

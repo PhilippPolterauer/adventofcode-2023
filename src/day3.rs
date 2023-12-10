@@ -239,7 +239,7 @@ pub fn part2(input: String) -> i64 {
             sum += solution
         }
     }
-    sum as i64
+    sum
 }
 
 #[cfg(test)]

@@ -207,7 +207,7 @@ pub fn part1(input: String) -> i64 {
     }
     let solution = results.iter().min().unwrap();
 
-    *solution as i64
+    *solution
 }
 pub fn part2(input: String) -> i64 {
     let _start = Instant::now();
@@ -241,7 +241,7 @@ pub fn part2(input: String) -> i64 {
 
     let solution = ranges.iter().min_by_key(|r| r.start).unwrap().start;
 
-    solution as i64
+    solution
 }
 
 #[cfg(test)]

@@ -24,7 +24,7 @@ pub fn part1(input: String) -> i64 {    let mut solution = 0;
         
         solution += diff;
     }
-    solution as i64
+    solution
 }
 pub fn part2(input: String) -> i64 {    let mut solution = 0;
     for line in input.lines() {
@@ -49,5 +49,5 @@ pub fn part2(input: String) -> i64 {    let mut solution = 0;
         // 
         solution += diff;
     }
-    solution as i64
+    solution
 }

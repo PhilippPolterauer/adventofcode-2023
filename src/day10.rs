@@ -277,7 +277,7 @@ pub fn part1(input: String) -> i64 {    let map = Map::from_lines(input);
     }
     // dist_map);
     let solution = dist_map.iter().flatten().max().unwrap();
-    *solution as i64
+    *solution
 }
 
 fn get_rot(olddir: &Direction, dir: &Direction) -> i64 {
