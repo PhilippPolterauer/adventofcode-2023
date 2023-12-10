@@ -1,8 +1,10 @@
 fn parse_line(line: &str) -> u64 {
     let first = line.chars().find(|c| c.is_ascii_digit()).unwrap();
     let last = line.chars().rev().find(|c| c.is_ascii_digit()).unwrap();
-    
-    (first.to_string() + &last.to_string()).parse::<u64>().unwrap()
+
+    (first.to_string() + &last.to_string())
+        .parse::<u64>()
+        .unwrap()
 }
 
 const REPLACEMENTS: [(&str, char); 9] = [
