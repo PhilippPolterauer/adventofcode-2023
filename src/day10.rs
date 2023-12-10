@@ -130,9 +130,6 @@ impl Map {
         map
     }
 
-    // fn north(&self, idx: Idx)-> Option<Pipe>{
-    //     let nidx = idx;
-    //     self.get(nidx)
     fn idx_direction(&self, idx: Idx, direction: &Direction) -> Option<Idx> {
         match direction {
             Direction::North => {
@@ -326,17 +323,18 @@ pub fn part2(input: String) {
     let (mut pipe, mut dir) = pipes[pipidx];
 
     let mut loop_map: Vec<Vec<char>> = input.lines().map(|line| line.chars().collect()).collect();
-    loop_map[pipe.idx.0][pipe.idx.1] = 'x';
+
     let mut rot = 0;
-    let mut olddir = dir;
+
     while pipe.idx != start {
-        olddir = dir;
+        loop_map[pipe.idx.0][pipe.idx.1] = 'x';
+        let olddir = dir;
         (pipe, dir) = map.next_pipe(&pipe, &dir).unwrap();
         rot += get_rot(&olddir, &dir);
 
-        loop_map[pipe.idx.0][pipe.idx.1] = 'x';
         // print_map(&loop_map);
     }
+    
     // (pipe, dir) = map.next_pipe(&pipe, &dir).unwrap();
     // rot += get_rot(&olddir, &dir);
     // make sure we run clockwise
@@ -350,7 +348,7 @@ pub fn part2(input: String) {
 
     while pipe.idx != start {
         if let Some(idx) = map.idx_direction(pipe.idx, &dir.right()) {
-            if loop_map[idx.0][idx.1] != 'x' && loop_map[idx.0][idx.1] != 'I' {
+            if loop_map[idx.0][idx.1] != 'x' && loop_map[idx.0][idx.1] != 'I'  {
                 loop_map[idx.0][idx.1] = 'I';
                 insides.insert(idx);
             }
@@ -367,7 +365,7 @@ pub fn part2(input: String) {
             for direction in ALL_DIRECTIONS {
                 if let Some(next_idx) = map.idx_direction(idx, &direction) {
                     let next_val = loop_map[next_idx.0][next_idx.1];
-                    if next_val != 'I' && next_val != 'x' {
+                    if next_val != 'I' && next_val != 'x' && next_val != 'S' {
                         insides.insert(next_idx);
                         active.insert(next_idx);
                         loop_map[next_idx.0][next_idx.1] = 'I';
