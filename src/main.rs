@@ -1,5 +1,3 @@
-#![feature(hash_set_entry)]
-
 mod day1;
 mod day10;
 mod day11;

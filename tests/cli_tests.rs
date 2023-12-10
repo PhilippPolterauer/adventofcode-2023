@@ -5,6 +5,5 @@ fn cli_tests() {
 }
 #[test]
 fn trycmd() {
-    let t = trycmd::TestCases::new().case("README.md");
-
+    trycmd::TestCases::new().case("README.md");
 }
