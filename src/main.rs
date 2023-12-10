@@ -1,29 +1,5 @@
-mod day1;
-mod day10;
-mod day11;
-mod day12;
-mod day13;
-mod day14;
-mod day15;
-mod day16;
-mod day17;
-mod day18;
-mod day19;
-mod day2;
-mod day20;
-mod day21;
-mod day22;
-mod day23;
-mod day24;
-mod day3;
-mod day4;
-mod day5;
-mod day6;
-mod day7;
-mod day8;
-mod day9;
+mod days;
 mod util;
-
 use std::time::Instant;
 
 use clap::{arg, Parser};
@@ -65,6 +41,7 @@ struct Cli {
 }
 
 fn get_function(day: i32, part: i32) -> fn(&str) -> i64 {
+    use days::*;
     match (day, part) {
         (1, 1) => day1::part1,
         (1, 2) => day1::part2,
@@ -130,7 +107,7 @@ fn main() {
         profile,
         numruns,
     } = args;
-    let input = util::load_file(day, part, runtest, data);
+    let input = util::load_file(day, part, runtest, &data);
 
     let function = get_function(day, part);
 
