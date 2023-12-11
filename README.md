@@ -287,12 +287,10 @@ Solution: 401
 
 ```console
 $ adventofcode 11 1
-? 101
 day: 11, part: 1
 loading data from 'data/day11/input1.txt'
-thread 'main' panicked at src/util.rs:6:35:
-called `Result::unwrap()` on an `Err` value: Os { code: 2, kind: NotFound, message: "No such file or directory" }
-note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+Duration: [..] us
+Solution: 9965032
 
 ```
 
@@ -300,12 +298,10 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 
 ```console
 $ adventofcode 11 2
-? 101
 day: 11, part: 2
 loading data from 'data/day11/input2.txt'
-thread 'main' panicked at src/util.rs:6:35:
-called `Result::unwrap()` on an `Err` value: Os { code: 2, kind: NotFound, message: "No such file or directory" }
-note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+Duration: [..] us
+Solution: 550358864332
 
 ```
 

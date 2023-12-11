@@ -17,10 +17,7 @@ impl Map {
     }
     fn row(&self, row: &usize) -> Vec<char> {
         let width = self.width;
-        self.data[row * width..(row + 1) * width]
-            .iter()
-            .copied()
-            .collect()
+        self.data[row * width..(row + 1) * width].to_vec()
     }
     fn from_str(input: &str) -> Self {
         let mut data = Vec::new();
@@ -37,12 +34,12 @@ impl Map {
     }
     fn empty_rows(&self) -> Vec<usize> {
         (0..(self.data.len() / self.width))
-            .filter(|idx| self.row(&idx).iter().all(|c| c == &'.'))
+            .filter(|idx| self.row(idx).iter().all(|c| c == &'.'))
             .collect()
     }
     fn empty_cols(&self) -> Vec<usize> {
         (0..self.width)
-            .filter(|idx| self.col(&idx).iter().all(|c| c == &'.'))
+            .filter(|idx| self.col(idx).iter().all(|c| c == &'.'))
             .collect()
     }
     fn insert_cols(&mut self, cols: &[usize]) {
@@ -123,7 +120,7 @@ pub fn part1(input: &str) -> i64 {
     solution as i64
 }
 pub fn part2(input: &str) -> i64 {
-    let mut map = Map::from_str(input);
+    let map = Map::from_str(input);
 
     let empty_cols = map.empty_cols();
     let empty_rows = map.empty_rows();
