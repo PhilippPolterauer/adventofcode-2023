@@ -1,3 +1,4 @@
+use std::collections::HashSet;
 use std::fmt::Debug;
 
 struct Map {
@@ -121,6 +122,38 @@ pub fn part1(input: &str) -> i64 {
 
     solution as i64
 }
-pub fn part2(_input: &str) -> i64 {
-    0
+pub fn part2(input: &str) -> i64 {
+    let mut map = Map::from_str(input);
+
+    let empty_cols = map.empty_cols();
+    let empty_rows = map.empty_rows();
+
+    // now we do a sparse galaxy map
+    let sparse_map: HashSet<(usize, usize)> =
+        HashSet::from_iter(input.lines().enumerate().flat_map(|(row, line)| {
+            line.chars()
+                .enumerate()
+                .filter_map(move |(col, char)| if char == '#' { Some((row, col)) } else { None })
+        }));
+
+    let offset = 999999;
+
+    // we find each galaxy and count the number of empty rows and columns before it then we add emptycnt*1000000 to each index
+    let mut expanded_map = HashSet::new();
+    for galaxy in sparse_map {
+        let empty_rows_cnt = empty_rows.iter().filter(|&row| row < &galaxy.0).count();
+        let empty_cols_cnt = empty_cols.iter().filter(|&col| col < &galaxy.1).count();
+        expanded_map.insert((
+            galaxy.0 + empty_rows_cnt * offset,
+            galaxy.1 + empty_cols_cnt * offset,
+        ));
+    }
+
+    let mut solution = 0;
+    for (idx, a) in expanded_map.iter().enumerate() {
+        for b in expanded_map.iter().skip(idx + 1) {
+            solution += dist(a, b);
+        }
+    }
+    solution as i64
 }
