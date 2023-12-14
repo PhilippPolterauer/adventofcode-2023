@@ -2,6 +2,7 @@ struct CharMatrix {
     data: Vec<char>,
     width: usize,
 }
+type PairFn = fn(&CharMatrix, usize, usize) -> Option<(Vec<char>, Vec<char>)>;
 impl CharMatrix {
     fn height(&self) -> usize {
         self.data.len() / self.width
@@ -43,11 +44,7 @@ impl CharMatrix {
     ) -> Option<(Vec<char>, Vec<char>)> {
         if offset <= idx {
             if let Some(col) = fun(self, idx - offset) {
-                if let Some(ncol) = fun(self, idx + 1 + offset) {
-                    Some((col, ncol))
-                } else {
-                    None
-                }
+                fun(self, idx + 1 + offset).map(|ncol| (col, ncol))
             } else {
                 None
             }
@@ -61,74 +58,7 @@ impl CharMatrix {
     fn col_pair(&self, idx: usize, offset: usize) -> Option<(Vec<char>, Vec<char>)> {
         self.pair(idx, offset, Self::col)
     }
-    fn find_smudge(
-        &self,
-        num: usize,
-        pair_fun: fn(&CharMatrix, usize, usize) -> Option<(Vec<char>, Vec<char>)>,
-    ) -> Option<(usize, usize)> {
-        for idx in 0..(num - 1) {
-            let mut mirror = true;
-            let mut offset = 0;
-            while mirror {
-                if let Some((a, b)) = pair_fun(self, idx, offset) {
-                    mirror = a == b;
-                    if !mirror {
-                        if let Some((isa, other_idx)) = smudge(a, b) {
-                            if isa {
-                                return Some((idx - offset, other_idx));
-                            } else {
-                                return Some((idx + offset + 1, other_idx));
-                            }
-                        }
-                    }
-                    // dbg!(&a, &b);
-                } else {
-                    // if we get here we must have been a mirror, with size offset-1
-                    break;
-                };
-                offset += 1;
-            }
-        }
-        None
-    }
-    fn find_col(&self) -> Option<usize> {
-        for idx in 0..(self.width - 1) {
-            let mut mirror = true;
-            let mut offset = 0;
-            while mirror {
-                if let Some((a, b)) = self.col_pair(idx, offset) {
-                    mirror = a == b;
-                } else {
-                    // if we get here we must have been a mirror, with size offset-1
-                    break;
-                };
-                offset += 1;
-            }
-            if mirror {
-                return Some(idx);
-            }
-        }
-        None
-    }
-    fn find_row(&self) -> Option<usize> {
-        for idx in 0..(self.height() - 1) {
-            let mut mirror = true;
-            let mut offset = 0;
-            while mirror {
-                if let Some((a, b)) = self.row_pair(idx, offset) {
-                    mirror = a == b;
-                } else {
-                    // if we get here we must have been a mirror, with size offset-1
-                    break;
-                };
-                offset += 1;
-            }
-            if mirror {
-                return Some(idx);
-            }
-        }
-        None
-    }
+
     fn find_solution(&self) -> i64 {
         let mut solution = 0;
 
@@ -150,20 +80,15 @@ impl CharMatrix {
         }
         solution as i64
     }
-    fn print(&self) {
-        for row in 0..self.height() {
-            for c in self.row(row).unwrap() {
-                print!("{}", c);
-            }
-            print!("\n");
-        }
-    }
-    fn mirror_distance(
-        &self,
-        idx: usize,
-        n: usize,
-        pair_fun: fn(&Self, usize, usize) -> Option<(Vec<char>, Vec<char>)>,
-    ) -> usize {
+    // fn print(&self) { // allow
+    //     for row in 0..self.height() {
+    //         for c in self.row(row).unwrap() {
+    //             print!("{}", c);
+    //         }
+    //         print!("\n");
+    //     }
+    // }
+    fn mirror_distance(&self, idx: usize, n: usize, pair_fun: PairFn) -> usize {
         let mut distance = 0;
         let offmax = std::cmp::min(idx + 1, n - idx);
         for offset in 0..offmax {
@@ -177,24 +102,6 @@ impl CharMatrix {
     }
 }
 
-fn smudge(a: Vec<char>, b: Vec<char>) -> Option<(bool, usize)> {
-    if a.iter().zip(b.iter()).filter(|(a, b)| a != b).count() != 1 {
-        return None;
-    }
-
-    a.iter()
-        .zip(b.iter())
-        .enumerate()
-        .find_map(|(idx, (a, b))| {
-            if a != b {
-                let isa = a == &'#';
-                Some((isa, idx))
-            } else {
-                None
-            }
-        })
-}
-
 pub fn part1(input: &str) -> i64 {
     let mats: Vec<CharMatrix> = input.split("\n\n").map(CharMatrix::from_string).collect();
 
@@ -206,7 +113,7 @@ pub fn part1(input: &str) -> i64 {
     dbg!(solution)
 }
 pub fn part2(input: &str) -> i64 {
-    let mut mats: Vec<CharMatrix> = input.split("\n\n").map(CharMatrix::from_string).collect();
+    let mats: Vec<CharMatrix> = input.split("\n\n").map(CharMatrix::from_string).collect();
     let desired_distance = 0;
     // test vertical
     let mut solution = 0;
@@ -227,7 +134,7 @@ pub fn part2(input: &str) -> i64 {
                 print!("{} ", col + 1);
             }
         }
-        println!("");
+        println!();
     }
 
     dbg!(solution) as i64

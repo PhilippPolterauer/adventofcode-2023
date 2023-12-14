@@ -23,37 +23,8 @@ impl Element {
         }
     }
 }
-fn parse_input(input: &str) -> Vec<Vec<Element>> {
-    let ncols = input.lines().nth(0).unwrap().len();
-    let mut result: Vec<Vec<Element>> = vec![Vec::<Element>::new(); ncols];
 
-    for line in input.lines() {
-        for (col, c) in line.chars().enumerate() {
-            let elem = Element::from_char(c);
-            result[col].push(elem);
-        }
-    }
-    result
-}
-fn compute_load(columns: &Vec<Vec<Element>>) -> i64 {
-    let n = columns[0].len();
-    let mut load = 0;
-    for col in columns {
-        let mut iter = col.iter().enumerate();
-        let mut weight = n;
-        while let Some((idx, e)) = iter.find(|(_, e)| e != &&Element::Empty) {
-            match e {
-                Element::Round => {
-                    load += weight;
-                    weight -= 1;
-                }
-                Element::Cube => weight = n - idx - 1,
-                Element::Empty => (),
-            };
-        }
-    }
-    load as i64
-}
+
 pub fn part1(input: &str) -> i64 {
     let mut board = Board::from_string(input);
     board.tilt();
@@ -95,7 +66,7 @@ impl Board {
         } else {
             let start = idx * self.width;
             let stop = (idx + 1) * self.width;
-            Some(self.data[start..stop].iter().copied().collect())
+            Some(self.data[start..stop].to_vec())
         }
     }
     fn col(&self, idx: usize) -> Option<Vec<Element>> {
@@ -169,8 +140,7 @@ impl Debug for Board {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         for line in self.rows() {
             let data = line.iter().map(|c| c.as_char()).collect::<String>();
-            f.write_str(&data);
-            f.write_str("\n");
+            f.write_str(&(data + "\n"))?
         }
         f.write_str("\n")
     }
@@ -192,17 +162,16 @@ pub fn part2(input: &str) -> i64 {
     println!("{:?}", board);
     let mut i = 0;
 
-
     while !set.contains_key(&board) {
         set.insert(board.clone(), i);
         board.cycle();
         // println!("{:?}", &board);
         i += 1;
     }
-    let rem = (NCYCLES - i)%(i-set.get(&board).unwrap());
+    let rem = (NCYCLES - i) % (i - set.get(&board).unwrap());
     println!("{}", rem);
     println!("{}", i);
-    
+
     for _ in 0..rem {
         board.cycle();
     }
