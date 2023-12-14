@@ -61,20 +61,26 @@ impl CharMatrix {
     fn col_pair(&self, idx: usize, offset: usize) -> Option<(Vec<char>, Vec<char>)> {
         self.pair(idx, offset, Self::col)
     }
-}
-
-pub fn part1(input: &str) -> i64 {
-    let mats: Vec<CharMatrix> = input.split("\n\n").map(CharMatrix::from_string).collect();
-
-    // test vertical
-    let mut solution = 0;
-    for mat in mats {
-        for idx in 0..(mat.width - 1) {
+    fn find_smudge(
+        &self,
+        num: usize,
+        pair_fun: fn(&CharMatrix, usize, usize) -> Option<(Vec<char>, Vec<char>)>,
+    ) -> Option<(usize, usize)> {
+        for idx in 0..(num - 1) {
             let mut mirror = true;
             let mut offset = 0;
             while mirror {
-                if let Some((a, b)) = mat.col_pair(idx, offset) {
+                if let Some((a, b)) = pair_fun(self, idx, offset) {
                     mirror = a == b;
+                    if !mirror {
+                        if let Some((isa, other_idx)) = smudge(a, b) {
+                            if isa {
+                                return Some((idx - offset, other_idx));
+                            } else {
+                                return Some((idx + offset + 1, other_idx));
+                            }
+                        }
+                    }
                     // dbg!(&a, &b);
                 } else {
                     // if we get here we must have been a mirror, with size offset-1
@@ -82,18 +88,56 @@ pub fn part1(input: &str) -> i64 {
                 };
                 offset += 1;
             }
-            if mirror {
-                solution += idx + 1;
-            }
         }
-
-        for idx in 0..(mat.height() - 1) {
+        None
+    }
+    fn find_col(&self) -> Option<usize> {
+        for idx in 0..(self.width - 1) {
             let mut mirror = true;
             let mut offset = 0;
             while mirror {
-                if let Some((a, b)) = mat.row_pair(idx, offset) {
+                if let Some((a, b)) = self.col_pair(idx, offset) {
                     mirror = a == b;
-                    // dbg!(&a, &b);
+                } else {
+                    // if we get here we must have been a mirror, with size offset-1
+                    break;
+                };
+                offset += 1;
+            }
+            if mirror {
+                return Some(idx);
+            }
+        }
+        None
+    }
+    fn find_row(&self) -> Option<usize> {
+        for idx in 0..(self.height() - 1) {
+            let mut mirror = true;
+            let mut offset = 0;
+            while mirror {
+                if let Some((a, b)) = self.row_pair(idx, offset) {
+                    mirror = a == b;
+                } else {
+                    // if we get here we must have been a mirror, with size offset-1
+                    break;
+                };
+                offset += 1;
+            }
+            if mirror {
+                return Some(idx);
+            }
+        }
+        None
+    }
+    fn find_solution(&self) -> i64 {
+        let mut solution = 0;
+
+        for idx in 0..(self.height() - 1) {
+            let mut mirror = true;
+            let mut offset = 0;
+            while mirror {
+                if let Some((a, b)) = self.row_pair(idx, offset) {
+                    mirror = a == b;
                 } else {
                     // if we get here we must have been a mirror, with size offset-1
                     break;
@@ -104,10 +148,88 @@ pub fn part1(input: &str) -> i64 {
                 solution += (idx + 1) * 100;
             }
         }
+        solution as i64
     }
-    dbg!(solution);
-    0
+    fn print(&self) {
+        for row in 0..self.height() {
+            for c in self.row(row).unwrap() {
+                print!("{}", c);
+            }
+            print!("\n");
+        }
+    }
+    fn mirror_distance(
+        &self,
+        idx: usize,
+        n: usize,
+        pair_fun: fn(&Self, usize, usize) -> Option<(Vec<char>, Vec<char>)>,
+    ) -> usize {
+        let mut distance = 0;
+        let offmax = std::cmp::min(idx + 1, n - idx);
+        for offset in 0..offmax {
+            if let Some((a, b)) = pair_fun(self, idx, offset) {
+                distance += a.iter().zip(b.iter()).filter(|(a, b)| a != b).count();
+            } else {
+                break;
+            }
+        }
+        distance
+    }
 }
-pub fn part2(_input: &str) -> i64 {
-    0
+
+fn smudge(a: Vec<char>, b: Vec<char>) -> Option<(bool, usize)> {
+    if a.iter().zip(b.iter()).filter(|(a, b)| a != b).count() != 1 {
+        return None;
+    }
+
+    a.iter()
+        .zip(b.iter())
+        .enumerate()
+        .find_map(|(idx, (a, b))| {
+            if a != b {
+                let isa = a == &'#';
+                Some((isa, idx))
+            } else {
+                None
+            }
+        })
+}
+
+pub fn part1(input: &str) -> i64 {
+    let mats: Vec<CharMatrix> = input.split("\n\n").map(CharMatrix::from_string).collect();
+
+    // test vertical
+    let mut solution = 0;
+    for mat in mats {
+        solution += mat.find_solution();
+    }
+    dbg!(solution)
+}
+pub fn part2(input: &str) -> i64 {
+    let mut mats: Vec<CharMatrix> = input.split("\n\n").map(CharMatrix::from_string).collect();
+    let desired_distance = 0;
+    // test vertical
+    let mut solution = 0;
+    for mat in mats.iter() {
+        let nrow = mat.height();
+        for row in 0..(nrow-1) {
+            let dist = mat.mirror_distance(row, nrow, CharMatrix::row_pair);
+            if dist == desired_distance{
+                solution += (row+1)*100;
+                print!("{} ", row+1);
+            }
+        }
+        let ncol = mat.width;
+        for col in 0..(ncol-1) {
+            let dist = mat.mirror_distance(col, ncol, CharMatrix::col_pair);
+            if dist == desired_distance{
+                solution += (col+1);
+                print!("{} ", col+1);
+            }
+        }
+        println!("");
+    }
+        
+
+    dbg!(solution) as i64
 }
