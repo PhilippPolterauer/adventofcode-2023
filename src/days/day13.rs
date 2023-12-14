@@ -212,24 +212,23 @@ pub fn part2(input: &str) -> i64 {
     let mut solution = 0;
     for mat in mats.iter() {
         let nrow = mat.height();
-        for row in 0..(nrow-1) {
+        for row in 0..(nrow - 1) {
             let dist = mat.mirror_distance(row, nrow, CharMatrix::row_pair);
-            if dist == desired_distance{
-                solution += (row+1)*100;
-                print!("{} ", row+1);
+            if dist == desired_distance {
+                solution += (row + 1) * 100;
+                print!("{} ", row + 1);
             }
         }
         let ncol = mat.width;
-        for col in 0..(ncol-1) {
+        for col in 0..(ncol - 1) {
             let dist = mat.mirror_distance(col, ncol, CharMatrix::col_pair);
-            if dist == desired_distance{
-                solution += (col+1);
-                print!("{} ", col+1);
+            if dist == desired_distance {
+                solution += col + 1;
+                print!("{} ", col + 1);
             }
         }
         println!("");
     }
-        
 
     dbg!(solution) as i64
 }
