@@ -158,7 +158,7 @@ pub fn part2(input: &str) -> i64 {
     let mut board = Board::from_string(input);
     const NCYCLES: usize = 1000000000;
     let mut set = HashMap::new();
-    println!("{:?}", board);
+
     let mut i = 0;
 
     while !set.contains_key(&board) {
@@ -168,8 +168,6 @@ pub fn part2(input: &str) -> i64 {
         i += 1;
     }
     let rem = (NCYCLES - i) % (i - set.get(&board).unwrap());
-    println!("{}", rem);
-    println!("{}", i);
 
     for _ in 0..rem {
         board.cycle();

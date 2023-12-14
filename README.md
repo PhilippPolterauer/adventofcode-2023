@@ -280,7 +280,6 @@ Solution: 401
 
 ```
 
-
 ### Day 11
 
 #### Part 1
@@ -304,7 +303,7 @@ Duration: [..] us
 Solution: 550358864332
 
 ```
-<!-- 
+
 ### Day 12
 
 #### Part 1
@@ -327,7 +326,55 @@ loading data from 'data/day12/input2.txt'
 Duration: [..] us
 Solution: 18716325559999
 
-``` -->
+```
+
+### Day 13
+
+#### Part 1
+
+```console
+$ adventofcode 13 1
+day: 13, part: 1
+loading data from 'data/day13/input1.txt'
+Duration: [..] us
+Solution: 31400
+
+```
+
+#### Part 2
+
+```console
+$ adventofcode 13 2
+day: 13, part: 2
+loading data from 'data/day13/input2.txt'
+Duration: [..] us
+Solution: 31739
+
+```
+
+### Day 14
+
+#### Part 1
+
+```console
+$ adventofcode 14 1
+day: 14, part: 1
+loading data from 'data/day14/input1.txt'
+Duration: [..] us
+Solution: 106186
+
+```
+
+#### Part 2
+
+```console
+$ adventofcode 14 2
+day: 14, part: 2
+loading data from 'data/day14/input2.txt'
+Duration: [..] us
+Solution: 106390
+
+```
 
 ## About
 

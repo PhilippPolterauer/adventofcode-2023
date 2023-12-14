@@ -110,7 +110,7 @@ pub fn part1(input: &str) -> i64 {
     for mat in mats {
         solution += mat.find_solution();
     }
-    dbg!(solution)
+    solution
 }
 pub fn part2(input: &str) -> i64 {
     let mats: Vec<CharMatrix> = input.split("\n\n").map(CharMatrix::from_string).collect();
@@ -123,7 +123,6 @@ pub fn part2(input: &str) -> i64 {
             let dist = mat.mirror_distance(row, nrow, CharMatrix::row_pair);
             if dist == desired_distance {
                 solution += (row + 1) * 100;
-                print!("{} ", row + 1);
             }
         }
         let ncol = mat.width;
@@ -131,11 +130,9 @@ pub fn part2(input: &str) -> i64 {
             let dist = mat.mirror_distance(col, ncol, CharMatrix::col_pair);
             if dist == desired_distance {
                 solution += col + 1;
-                print!("{} ", col + 1);
             }
         }
-        println!();
     }
 
-    dbg!(solution) as i64
+    solution as i64
 }
