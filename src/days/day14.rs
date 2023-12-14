@@ -24,7 +24,6 @@ impl Element {
     }
 }
 
-
 pub fn part1(input: &str) -> i64 {
     let mut board = Board::from_string(input);
     board.tilt();
