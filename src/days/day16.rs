@@ -95,7 +95,6 @@ impl Board {
         self.data.len() / self.width
     }
     fn next(&self, (idx, indir): &(NodeIdx, Direction)) -> Vec<(NodeIdx, Direction)> {
-        dbg!(self[idx]);
         self[idx]
             .out_dirs(indir)
             .iter()
@@ -122,28 +121,43 @@ impl Board {
             Some((NodeIdx { row, col }, *outdir))
         }
     }
+    fn compute_energy(&self, start: (NodeIdx, Direction)) -> i64 {
+        let mut visited: HashSet<(NodeIdx, Direction)> = HashSet::from_iter([start]);
+        let mut nodes: HashSet<(NodeIdx, Direction)> = HashSet::from(visited.clone());
+
+        while !nodes.is_empty() {
+            // these are the nextnodes with indirection after moving with the outdir
+            nodes = nodes.iter().flat_map(|node| self.next(node)).collect();
+            // at this point nodes contains all the nodes with in directions
+            nodes = nodes.iter().filter_map(|n| self.nextin(n)).collect();
+            // we remove all nodes that have already bin visited with this direction
+            nodes.retain(|n| !visited.contains(n));
+            // then we transfer the \ node + outdir
+            visited.extend(nodes.iter().copied());
+        }
+
+        let visited_idx: HashSet<_> = visited.iter().map(|(idx, _)| idx).collect();
+        visited_idx.len() as i64
+    }
 }
 pub fn part1(input: &str) -> i64 {
     let board = Board::from_string(input);
     let start = NodeIdx { row: 0, col: 0 };
-    let start_dir = Direction::Right;
-    let mut visited: HashSet<(NodeIdx, Direction)> = HashSet::from_iter([(start, start_dir)]);
-    let mut nodes: HashSet<(NodeIdx, Direction)> = HashSet::from(visited.clone());
-
-    while !nodes.is_empty() {
-        // these are the nextnodes with indirection after moving with the outdir
-        nodes = nodes.iter().flat_map(|node| board.next(node)).collect();
-        // at this point nodes contains all the nodes with in directions
-        nodes = nodes.iter().filter_map(|n| board.nextin(n)).collect();
-        // we remove all nodes that have already bin visited with this direction
-        nodes.retain(|n| !visited.contains(n));
-        // then we transfer the \ node + outdir
-        visited.extend(nodes.iter().copied());
-    }
-
-    let visited_idx: HashSet<_> = visited.iter().map(|(idx, _)| idx).collect();
-    visited_idx.len() as i64
+    let dir = Direction::Right;
+    board.compute_energy((start, dir))
 }
-pub fn part2(_input: &str) -> i64 {
-    0
+pub fn part2(input: &str) -> i64 {
+    let board = Board::from_string(input);
+    let n = board.height();
+    let m = board.width;
+    let mut starts = Vec::new();
+    for row in 0..n {
+        starts.push((NodeIdx { row, col: 0 }, Direction::Right));
+        starts.push((NodeIdx { row, col: m - 1 }, Direction::Right));
+    }
+    for col in 0..m {
+        starts.push((NodeIdx { row: 0, col }, Direction::Down));
+        starts.push((NodeIdx { row: n - 1, col }, Direction::Up));
+    }
+    starts.iter().map(|&node| board.compute_energy(node)).max().unwrap() as i64
 }
