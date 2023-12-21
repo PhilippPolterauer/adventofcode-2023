@@ -33,14 +33,14 @@ impl Boxes {
             .sum()
     }
 }
-fn focusing_power(idx: usize, lenses: &Vec<Lense>) -> i64 {
+fn focusing_power(idx: usize, lenses: &[Lense]) -> i64 {
     lenses
         .iter()
         .enumerate()
         .map(|(lidx, lense)| (idx + 1) * (lidx + 1) * lense.focal)
         .sum::<usize>() as i64
 }
-fn find_lense(lbox: &Vec<Lense>, label: &str) -> Option<usize> {
+fn find_lense(lbox: &[Lense], label: &str) -> Option<usize> {
     lbox.iter().enumerate().find_map(|(idx, lense)| {
         if lense.label == label {
             Some(idx)
@@ -67,7 +67,7 @@ fn parse_operation(text: &str) -> Operation {
     let mut iter = text.chars();
     let mut label = String::new();
     let mut op = ' ';
-    while let Some(c) = iter.next() {
+    for c in iter.by_ref() {
         if c == '=' || c == '-' {
             op = c;
             break;
@@ -78,11 +78,11 @@ fn parse_operation(text: &str) -> Operation {
 
     let id = hash(&label);
     if op == '-' {
-        return Operation::Remove(id, label);
+        Operation::Remove(id, label)
     } else {
         let focal = iter.next().unwrap() as usize - '0' as usize;
         let lense = Lense { focal, label };
-        return Operation::Insert(id, lense);
+        Operation::Insert(id, lense)
     }
 }
 
@@ -94,21 +94,21 @@ fn hash(chars: &str) -> usize {
         }
         hash += c as usize;
         hash *= 17;
-        hash = hash % 256;
+        hash %= 256;
     }
     hash
 }
 
 pub fn part1(input: &str) -> i64 {
     let mut solution = 0;
-    for split in input.split(',').into_iter() {
+    for split in input.split(',') {
         solution += hash(split);
     }
     solution as i64
 }
 pub fn part2(input: &str) -> i64 {
     let mut boxes = Boxes::new();
-    for split in input.split(',').into_iter() {
+    for split in input.split(',') {
         let op = parse_operation(split);
         boxes.apply(op);
     }

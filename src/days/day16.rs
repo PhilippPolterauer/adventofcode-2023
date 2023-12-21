@@ -33,15 +33,6 @@ impl Element {
             _ => panic!(),
         }
     }
-    fn as_char(&self) -> char {
-        match self {
-            Element::Empty => '.',
-            Element::BMirror => '\\',
-            Element::FMirror => '/',
-            Element::HSplit => '-',
-            Element::VSplit => '|',
-        }
-    }
     fn out_dirs(&self, dir: &Direction) -> Vec<Direction> {
         match (self, dir) {
             (Element::Empty, _) => vec![*dir],
@@ -123,7 +114,7 @@ impl Board {
     }
     fn compute_energy(&self, start: (NodeIdx, Direction)) -> i64 {
         let mut visited: HashSet<(NodeIdx, Direction)> = HashSet::from_iter([start]);
-        let mut nodes: HashSet<(NodeIdx, Direction)> = HashSet::from(visited.clone());
+        let mut nodes: HashSet<(NodeIdx, Direction)> = visited.clone();
 
         while !nodes.is_empty() {
             // these are the nextnodes with indirection after moving with the outdir
@@ -159,5 +150,9 @@ pub fn part2(input: &str) -> i64 {
         starts.push((NodeIdx { row: 0, col }, Direction::Down));
         starts.push((NodeIdx { row: n - 1, col }, Direction::Up));
     }
-    starts.iter().map(|&node| board.compute_energy(node)).max().unwrap() as i64
+    starts
+        .iter()
+        .map(|&node| board.compute_energy(node))
+        .max()
+        .unwrap()
 }
