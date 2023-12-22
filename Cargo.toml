@@ -12,10 +12,6 @@ path = "src/main.rs"
 version = "4.4.10"
 features = ["derive"]
 
-[profile.profiling]
-inherits = "release"
-debug = true
-
 [profile.samply]
 inherits = "release"
 debug = true
@@ -29,3 +25,4 @@ trycmd = "0.14.19"
 [[bench]]
 name = "benchmark"
 harness = false
+
