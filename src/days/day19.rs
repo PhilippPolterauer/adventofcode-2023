@@ -230,7 +230,6 @@ fn run_workflow_range<'a>(workflow: &'a Workflow, part: &PartRange) -> Vec<(&'a 
 pub fn part1(input: &str) -> i64 {
     let (workflows, parts) = parse_input(input);
     let mut sum = 0;
-    dbg!(&workflows, &parts);
     for part in parts {
         let mut workflow = &workflows["in"];
         let mut result = run_workflow(workflow, &part);

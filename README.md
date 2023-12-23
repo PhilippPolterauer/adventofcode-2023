@@ -376,6 +376,126 @@ Solution: 106390
 
 ```
 
+### Day 15
+
+#### Part 1
+
+```console
+$ adventofcode 15 1
+day: 15, part: 1
+loading data from 'data/day15/input1.txt'
+Duration: [..] us
+Solution: 497373
+
+```
+
+#### Part 2
+
+```console
+$ adventofcode 15 2
+day: 15, part: 2
+loading data from 'data/day15/input2.txt'
+Duration: [..] us
+Solution: 259356
+
+```
+
+### Day 16
+
+#### Part 1
+
+```console
+$ adventofcode 16 1
+day: 16, part: 1
+loading data from 'data/day16/input1.txt'
+Duration: [..] us
+Solution: 8112
+
+```
+
+#### Part 2
+
+```console
+$ adventofcode 16 2
+day: 16, part: 2
+loading data from 'data/day16/input2.txt'
+Duration: [..] us
+Solution: 8314
+
+```
+
+### Day 17
+
+#### Part 1
+
+```console
+$ adventofcode 17 1
+day: 17, part: 1
+loading data from 'data/day17/input1.txt'
+Duration: [..] us
+Solution: 845
+
+```
+
+#### Part 2
+
+```console
+$ adventofcode 17 2
+day: 17, part: 2
+loading data from 'data/day17/input2.txt'
+Duration: [..] us
+Solution: 993
+
+```
+
+### Day 18
+
+#### Part 1
+
+```console
+$ adventofcode 18 1
+day: 18, part: 1
+loading data from 'data/day18/input1.txt'
+Duration: [..] us
+Solution: 95356
+
+```
+
+#### Part 2
+
+```console
+$ adventofcode 18 2
+day: 18, part: 2
+loading data from 'data/day18/input2.txt'
+Duration: [..] us
+Solution: 92291468914147
+
+```
+
+### Day 19
+
+#### Part 1
+
+```console
+$ adventofcode 19 1
+day: 19, part: 1
+loading data from 'data/day19/input1.txt'
+Duration: [..] us
+Solution: 374873
+
+```
+
+#### Part 2
+
+```console
+$ adventofcode 19 2
+day: 19, part: 2
+loading data from 'data/day19/input2.txt'
+Duration: [..] us
+Solution: 122112157518711
+
+```
+
 ## About
 
 Author: Philipp Polterauer
