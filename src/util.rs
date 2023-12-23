@@ -33,41 +33,41 @@ pub struct MatrixIdx {
     pub col: i64,
 }
 
-fn get_rot(last: &Direction, next: &Direction) -> i64 {
-    if last == next {
-        return 0;
-    }
+// fn get_rot(last: &Direction, next: &Direction) -> i64 {
+//     if last == next {
+//         return 0;
+//     }
 
-    match (last, next) {
-        (Direction::Up, Direction::Right)
-        | (Direction::Right, Direction::Down)
-        | (Direction::Down, Direction::Left)
-        | (Direction::Left, Direction::Up) => 1,
-        (Direction::Right, Direction::Up)
-        | (Direction::Down, Direction::Right)
-        | (Direction::Left, Direction::Down)
-        | (Direction::Up, Direction::Left) => -1,
-        _ => panic!("should not happen!"),
-    }
-}
-impl Direction {
-    fn get_delta(&self) -> MatrixIdx {
-        match self {
-            Direction::Up => MatrixIdx { row: -1, col: 0 },
-            Direction::Down => MatrixIdx { row: 1, col: 0 },
-            Direction::Left => MatrixIdx { row: 0, col: -1 },
-            Direction::Right => MatrixIdx { row: 0, col: 1 },
-        }
-    }
-    pub fn right(&self) -> Self {
-        match self {
-            Direction::Up => Direction::Right,
-            Direction::Down => Direction::Left,
-            Direction::Left => Direction::Up,
-            Direction::Right => Direction::Down,
-        }
-    }
-}
+//     match (last, next) {
+//         (Direction::Up, Direction::Right)
+//         | (Direction::Right, Direction::Down)
+//         | (Direction::Down, Direction::Left)
+//         | (Direction::Left, Direction::Up) => 1,
+//         (Direction::Right, Direction::Up)
+//         | (Direction::Down, Direction::Right)
+//         | (Direction::Left, Direction::Down)
+//         | (Direction::Up, Direction::Left) => -1,
+//         _ => panic!("should not happen!"),
+//     }
+// }
+// impl Direction {
+//     pub fn get_delta(&self) -> MatrixIdx {
+//         match self {
+//             Direction::Up => MatrixIdx { row: -1, col: 0 },
+//             Direction::Down => MatrixIdx { row: 1, col: 0 },
+//             Direction::Left => MatrixIdx { row: 0, col: -1 },
+//             Direction::Right => MatrixIdx { row: 0, col: 1 },
+//         }
+//     }
+//     pub fn right(&self) -> Self {
+//         match self {
+//             Direction::Up => Direction::Right,
+//             Direction::Down => Direction::Left,
+//             Direction::Left => Direction::Up,
+//             Direction::Right => Direction::Down,
+//         }
+//     }
+// }
 
 pub trait FromChar {
     fn from_char(char: &char) -> Self;
@@ -155,67 +155,67 @@ where
     fn linidx(&self, idx: &MatrixIdx) -> usize {
         (idx.row * self.width + idx.col) as usize
     }
-    fn from_string(input: &str) -> Self {
-        let mut data = Vec::new();
-        let mut width = 0;
-        for line in input.lines() {
-            width = line.len() as i64;
-            for c in line.chars() {
-                data.push(T::from_char(&c));
-            }
-        }
+    // fn from_string(input: &str) -> Self {
+    //     let mut data = Vec::new();
+    //     let mut width = 0;
+    //     for line in input.lines() {
+    //         width = line.len() as i64;
+    //         for c in line.chars() {
+    //             data.push(T::from_char(&c));
+    //         }
+    //     }
 
-        Self { data, width }
-    }
-    fn empty(nrows: usize, ncols: usize) -> Self {
-        Self {
-            data: vec![T::default(); nrows * ncols],
-            width: ncols as i64,
-        }
-    }
-    fn row(&self, idx: i64) -> Option<Vec<T>> {
-        if idx >= self.height() {
-            None
-        } else {
-            let start = idx * self.width;
-            let stop = (idx + 1) * self.width;
-            Some(self.data[start as usize..stop as usize].to_owned())
-        }
-    }
-    // fn rows(&self) -> FilterMap<std::ops::Range<i64>,Vec<T>> {
-    //     (0..self.height()).filter_map(|idx| self.row(idx))
+    //     Self { data, width }
     // }
-    fn height(&self) -> i64 {
-        self.data.len() as i64 / self.width
-    }
-    fn next(&self, idx: &MatrixIdx, direction: &Direction) -> Option<MatrixIdx> {
-        let n = self.height() - 1;
-        let m = self.width - 1;
-        let MatrixIdx { row, col } = idx;
-        if (row == &0 && direction == &Direction::Up)
-            || (row == &n && direction == &Direction::Down)
-            || (col == &0 && direction == &Direction::Left)
-            || (col == &m && direction == &Direction::Right)
-        {
-            None
-        } else {
-            let (row, col) = match direction {
-                Direction::Down => (row + 1, *col),
-                Direction::Up => (row - 1, *col),
-                Direction::Left => (*row, col - 1),
-                Direction::Right => (*row, col + 1),
-            };
-            Some(MatrixIdx { row, col })
-        }
-    }
+    // fn empty(nrows: usize, ncols: usize) -> Self {
+    //     Self {
+    //         data: vec![T::default(); nrows * ncols],
+    //         width: ncols as i64,
+    //     }
+    // }
+    // fn row(&self, idx: i64) -> Option<Vec<T>> {
+    //     if idx >= self.height() {
+    //         None
+    //     } else {
+    //         let start = idx * self.width;
+    //         let stop = (idx + 1) * self.width;
+    //         Some(self.data[start as usize..stop as usize].to_owned())
+    //     }
+    // }
+    // // fn rows(&self) -> FilterMap<std::ops::Range<i64>,Vec<T>> {
+    // //     (0..self.height()).filter_map(|idx| self.row(idx))
+    // // }
+    // fn height(&self) -> i64 {
+    //     self.data.len() as i64 / self.width
+    // }
+    // fn next(&self, idx: &MatrixIdx, direction: &Direction) -> Option<MatrixIdx> {
+    //     let n = self.height() - 1;
+    //     let m = self.width - 1;
+    //     let MatrixIdx { row, col } = idx;
+    //     if (row == &0 && direction == &Direction::Up)
+    //         || (row == &n && direction == &Direction::Down)
+    //         || (col == &0 && direction == &Direction::Left)
+    //         || (col == &m && direction == &Direction::Right)
+    //     {
+    //         None
+    //     } else {
+    //         let (row, col) = match direction {
+    //             Direction::Down => (row + 1, *col),
+    //             Direction::Up => (row - 1, *col),
+    //             Direction::Left => (*row, col - 1),
+    //             Direction::Right => (*row, col + 1),
+    //         };
+    //         Some(MatrixIdx { row, col })
+    //     }
+    // }
 }
 
-fn print_matrix(matrix: &Matrix<i64>) {
-    for i in 0..matrix.height() {
-        let line = matrix.row(i).unwrap();
-        for char in line {
-            print!("{}", char);
-        }
-        println!();
-    }
-}
+// fn print_matrix(matrix: &Matrix<i64>) {
+//     for i in 0..matrix.height() {
+//         let line = matrix.row(i).unwrap();
+//         for char in line {
+//             print!("{}", char);
+//         }
+//         println!();
+//     }
+// }
