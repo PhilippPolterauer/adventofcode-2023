@@ -6,7 +6,6 @@ struct Instruction {
     distance: i64,
 }
 
-
 fn dig(pos: &MatrixIdx, instruction: &Instruction) -> MatrixIdx {
     let MatrixIdx { row, col } = pos;
     let row = match instruction.direction {
@@ -21,7 +20,6 @@ fn dig(pos: &MatrixIdx, instruction: &Instruction) -> MatrixIdx {
     };
     MatrixIdx { row, col }
 }
-
 
 fn parse_line(line: &str) -> Instruction {
     let mut parts = line.split_whitespace();
@@ -51,9 +49,6 @@ fn parse_line2(line: &str) -> Instruction {
         distance,
     }
 }
-
-
-
 
 fn sholace(idzs: &[MatrixIdx]) -> i64 {
     // A = 1/2 Sum (yi + yi1)*(xi - xi1)
