@@ -57,7 +57,7 @@ struct Network {
     // names: Vec<String>,
     modules: Vec<Module>,
     outputs: Vec<Vec<usize>>,
-    // inputs: Vec<Vec<usize>>,
+    inputs: Vec<Vec<usize>>,
     highcnt: i64,
     lowcnt: i64,
 }
@@ -100,6 +100,30 @@ impl Network {
     }
     fn solution(&self) -> i64 {
         self.highcnt * self.lowcnt
+    }
+    fn print(&self) {
+        for m in self.modules.iter() {
+            match m {
+                // Module::Conjunction(conj) => {
+                //     for v in conj.levels.values() {
+                //         if *v {
+                //             print!("1")
+                //         } else {
+                //             print!("0")
+                //         }
+                //     }
+                // }
+                Module::FlipFlop(flip) => {
+                    if flip.state {
+                        print!("1")
+                    } else {
+                        print!("0")
+                    }
+                }
+                _ => (),
+            }
+        }
+        println!("");
     }
 }
 
@@ -183,6 +207,7 @@ fn parse_input1(input: &str) -> Network {
         idxmap,
         modules,
         outputs,
+        inputs,
         highcnt: 0,
         lowcnt: 0,
     }
@@ -204,6 +229,35 @@ pub fn part1(input: &str) -> i64 {
 
     network.solution()
 }
-pub fn part2(_input: &str) -> i64 {
+pub fn part2(input: &str) -> i64 {
+    let mut network = parse_input1(input);
+    let broadcaster = network.find("broadcaster");
+    let button = network.find("button");
+    let target = network.find("rx");
+    
+    let inputs = network.inputs[target].clone();
+    let inputs = network.inputs[inputs[0]].clone();
+    dbg!(&inputs);
+    for target in inputs {
+        dbg!(&network.modules[target]);
+        let mut solution = 0;
+        let mut done = false;
+        while !done {
+            solution += 1;
+            let mut signals = vec![Signal {
+                sender: button,
+                target: broadcaster,
+                level: false,
+            }];
+            while !signals.is_empty() {
+                signals = network.step(signals);
+            }
+            if let Module::Conjunction(conj)= &network.modules[target]{
+                done = *conj.levels.values().nth(0).unwrap();
+            }
+        }
+        dbg!(solution);
+    }
+
     0
 }
