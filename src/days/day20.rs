@@ -170,6 +170,7 @@ fn parse_input1(input: &str) -> Network {
             names.push(name.clone());
 
             idx += 1;
+            dbg!(name);
         }
     }
     for _ in 0..(idx - output_names.len()) {
@@ -233,31 +234,47 @@ pub fn part2(input: &str) -> i64 {
     let mut network = parse_input1(input);
     let broadcaster = network.find("broadcaster");
     let button = network.find("button");
-    let target = network.find("rx");
-    
-    let inputs = network.inputs[target].clone();
-    let inputs = network.inputs[inputs[0]].clone();
-    dbg!(&inputs);
-    for target in inputs {
-        dbg!(&network.modules[target]);
-        let mut solution = 0;
-        let mut done = false;
-        while !done {
-            solution += 1;
-            let mut signals = vec![Signal {
-                sender: button,
-                target: broadcaster,
-                level: false,
-            }];
-            while !signals.is_empty() {
-                signals = network.step(signals);
-            }
-            if let Module::Conjunction(conj)= &network.modules[target]{
-                done = *conj.levels.values().nth(0).unwrap();
-            }
-        }
-        dbg!(solution);
-    }
+    let target = network.find("zg");
 
-    0
+    // let tm = &;
+
+    // dbg!(&inputs);
+    // for target in inputs {
+    let mut iterations = vec![0;4];
+    for i in 0..4 {
+        let mut lastit = 0;
+        for _ in 0..5 {
+            // dbg!(&network.modules[target]);
+
+            let mut iteration = 0;
+            let mut done = false;
+            while !done {
+                iteration += 1;
+                let mut signals = vec![Signal {
+                    sender: button,
+                    target: broadcaster,
+                    level: false,
+                }];
+                while !signals.is_empty() {
+                    signals = network.step(signals);
+
+                    if let Module::Conjunction(conj) = &network.modules[target] {
+                        if *conj.levels.values().nth(i).unwrap() {
+                            done = true;
+                        }
+                    }
+                }
+                // if let Module::Conjunction(conj)= &network.modules[target]{
+                //     done = *conj.levels.values().nth(0).unwrap();
+                // }
+            }
+            iterations[i] = iteration;
+            dbg!(iteration-lastit);
+            lastit=iteration;
+
+        }
+        
+    }
+    dbg!(&iterations);
+    iterations.iter().product()
 }
