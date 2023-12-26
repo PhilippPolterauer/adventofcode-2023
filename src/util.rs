@@ -27,6 +27,13 @@ impl Direction {
     }
 }
 
+pub const ALL_DIRECTIONS: [Direction; 4] = [
+    Direction::Up,
+    Direction::Right,
+    Direction::Down,
+    Direction::Left,
+];
+
 #[derive(Debug, Clone, Copy, Hash, PartialEq, Eq)]
 pub struct MatrixIdx {
     pub row: i64,
@@ -73,7 +80,7 @@ pub trait FromChar {
     fn from_char(char: &char) -> Self;
     fn default() -> Self;
 }
-pub trait MatrixElement: FromChar + Clone {}
+pub trait MatrixElement: FromChar + Clone + PartialEq {}
 
 impl FromChar for i64 {
     fn from_char(char: &char) -> Self {
@@ -84,6 +91,7 @@ impl FromChar for i64 {
     }
 }
 impl MatrixElement for i64 {}
+#[derive(Debug)]
 pub struct Matrix<T>
 where
     T: MatrixElement,
@@ -155,18 +163,45 @@ where
     fn linidx(&self, idx: &MatrixIdx) -> usize {
         (idx.row * self.width + idx.col) as usize
     }
-    // fn from_string(input: &str) -> Self {
-    //     let mut data = Vec::new();
-    //     let mut width = 0;
-    //     for line in input.lines() {
-    //         width = line.len() as i64;
-    //         for c in line.chars() {
-    //             data.push(T::from_char(&c));
-    //         }
-    //     }
-
-    //     Self { data, width }
-    // }
+    pub fn from_string(input: &str) -> Self {
+        let mut data = Vec::new();
+        let mut width = 0;
+        for line in input.lines() {
+            width = line.len() as i64;
+            for c in line.chars() {
+                data.push(T::from_char(&c));
+            }
+        }
+        Self { data, width }
+    }
+    fn idx_from_lin(&self, linidx: usize) -> MatrixIdx {
+        MatrixIdx {
+            row: linidx as i64 / self.width,
+            col: linidx as i64 % self.width,
+        }
+    }
+    pub fn neighbours<'a>(&'a self, position: &MatrixIdx, condition: fn(&T) -> bool) -> Vec<&'a T> {
+        ALL_DIRECTIONS
+            .iter()
+            .filter_map(|dir| {
+                self.getnext(position, dir)
+                    .and_then(|elem| condition(elem).then_some(elem))
+            })
+            .collect()
+    }
+    pub fn neighbour_idzs<'a>(
+        &'a self,
+        position: &MatrixIdx,
+        condition: fn(&T) -> bool,
+    ) -> Vec<MatrixIdx> {
+        ALL_DIRECTIONS
+            .iter()
+            .filter_map(|dir| {
+                self.next(position, dir)
+                    .and_then(|idx| condition(&self[idx]).then_some(idx))
+            })
+            .collect()
+    }
     // fn empty(nrows: usize, ncols: usize) -> Self {
     //     Self {
     //         data: vec![T::default(); nrows * ncols],
@@ -185,29 +220,61 @@ where
     // // fn rows(&self) -> FilterMap<std::ops::Range<i64>,Vec<T>> {
     // //     (0..self.height()).filter_map(|idx| self.row(idx))
     // // }
-    // fn height(&self) -> i64 {
-    //     self.data.len() as i64 / self.width
-    // }
-    // fn next(&self, idx: &MatrixIdx, direction: &Direction) -> Option<MatrixIdx> {
-    //     let n = self.height() - 1;
-    //     let m = self.width - 1;
-    //     let MatrixIdx { row, col } = idx;
-    //     if (row == &0 && direction == &Direction::Up)
-    //         || (row == &n && direction == &Direction::Down)
-    //         || (col == &0 && direction == &Direction::Left)
-    //         || (col == &m && direction == &Direction::Right)
-    //     {
-    //         None
-    //     } else {
-    //         let (row, col) = match direction {
-    //             Direction::Down => (row + 1, *col),
-    //             Direction::Up => (row - 1, *col),
-    //             Direction::Left => (*row, col - 1),
-    //             Direction::Right => (*row, col + 1),
-    //         };
-    //         Some(MatrixIdx { row, col })
-    //     }
-    // }
+    fn height(&self) -> i64 {
+        self.data.len() as i64 / self.width
+    }
+    fn next(&self, idx: &MatrixIdx, direction: &Direction) -> Option<MatrixIdx> {
+        let n = self.height() - 1;
+        let m = self.width - 1;
+        let MatrixIdx { row, col } = idx;
+        if (row == &0 && direction == &Direction::Up)
+            || (row == &n && direction == &Direction::Down)
+            || (col == &0 && direction == &Direction::Left)
+            || (col == &m && direction == &Direction::Right)
+        {
+            None
+        } else {
+            let (row, col) = match direction {
+                Direction::Down => (row + 1, *col),
+                Direction::Up => (row - 1, *col),
+                Direction::Left => (*row, col - 1),
+                Direction::Right => (*row, col + 1),
+            };
+            Some(MatrixIdx { row, col })
+        }
+    }
+    pub fn next_unchecked(&self, idx: &MatrixIdx, direction: &Direction) -> MatrixIdx {
+        let MatrixIdx { row, col } = idx;
+
+        let (row, col) = match direction {
+            Direction::Down => (row + 1, *col),
+            Direction::Up => (row - 1, *col),
+            Direction::Left => (*row, col - 1),
+            Direction::Right => (*row, col + 1),
+        };
+        MatrixIdx { row, col }
+    }
+    fn shape(&self) -> (i64, i64) {
+        (self.height(), self.width)
+    }
+    pub fn get_wrapped(&self, idx: &MatrixIdx) -> &T {
+        let MatrixIdx { row, col } = idx;
+        let (height, width) = self.shape();
+
+        &self[MatrixIdx {
+            row: row.rem_euclid(height),
+            col: col.rem_euclid(width),
+        }]
+    }
+    fn getnext(&self, idx: &MatrixIdx, direction: &Direction) -> Option<&T> {
+        self.next(idx, direction).and_then(|idx| Some(&self[idx]))
+    }
+    pub fn find(&self, element: &T) -> Option<MatrixIdx> {
+        self.data
+            .iter()
+            .enumerate()
+            .find_map(|(idx, p)| (p == element).then_some(self.idx_from_lin(idx)))
+    }
 }
 
 // fn print_matrix(matrix: &Matrix<i64>) {
