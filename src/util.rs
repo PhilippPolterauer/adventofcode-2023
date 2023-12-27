@@ -180,15 +180,15 @@ where
             col: linidx as i64 % self.width,
         }
     }
-    pub fn neighbours<'a>(&'a self, position: &MatrixIdx, condition: fn(&T) -> bool) -> Vec<&'a T> {
-        ALL_DIRECTIONS
-            .iter()
-            .filter_map(|dir| {
-                self.getnext(position, dir)
-                    .and_then(|elem| condition(elem).then_some(elem))
-            })
-            .collect()
-    }
+    // pub fn neighbours<'a>(&'a self, position: &MatrixIdx, condition: fn(&T) -> bool) -> Vec<&'a T> {
+    //     ALL_DIRECTIONS
+    //         .iter()
+    //         .filter_map(|dir| {
+    //             self.getnext(position, dir)
+    //                 .and_then(|elem| condition(elem).then_some(elem))
+    //         })
+    //         .collect()
+    // }
     pub fn neighbour_idzs<'a>(
         &'a self,
         position: &MatrixIdx,
@@ -266,9 +266,9 @@ where
             col: col.rem_euclid(width),
         }]
     }
-    fn getnext(&self, idx: &MatrixIdx, direction: &Direction) -> Option<&T> {
-        self.next(idx, direction).and_then(|idx| Some(&self[idx]))
-    }
+    // fn getnext(&self, idx: &MatrixIdx, direction: &Direction) -> Option<&T> {
+    //     self.next(idx, direction).and_then(|idx| Some(&self[idx]))
+    // }
     pub fn find(&self, element: &T) -> Option<MatrixIdx> {
         self.data
             .iter()

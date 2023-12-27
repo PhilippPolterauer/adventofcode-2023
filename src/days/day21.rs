@@ -1,8 +1,6 @@
 use core::panic;
-use std::collections::HashSet;
-use std::fs::File;
-use std::io::Write;
 use nalgebra::{DMatrix, DVector};
+use std::collections::HashSet;
 
 use crate::util::*;
 
@@ -41,7 +39,7 @@ fn take_step_inf(matrix: &Matrix<Plots>, positions: &HashSet<MatrixIdx>) -> Hash
         .iter()
         .flat_map(|position| {
             ALL_DIRECTIONS.iter().filter_map(|direction| {
-                let idx = &matrix.next_unchecked(position, &direction);
+                let idx = &matrix.next_unchecked(position, direction);
                 (matrix.get_wrapped(idx) != &Plots::Rock).then_some(*idx)
             })
         })
@@ -63,14 +61,13 @@ pub fn part2(input: &str) -> i64 {
     let mut ys = Vec::new();
     let mut xs = Vec::new();
 
-    
     for step in 1..5000 {
         front = take_step_inf(&matrix, &front);
-        if step%2==1{
+        if step % 2 == 1 {
             front = front.difference(&odd).copied().collect();
             odd.extend(front.iter());
         }
-        if (step-65) % 262 == 0 {
+        if (step - 65) % 262 == 0 {
             xs.push(step);
             ys.push(odd.len() as i32)
         }
@@ -82,8 +79,8 @@ pub fn part2(input: &str) -> i64 {
     let xs2 = xs.clone().component_mul(&xs);
 
     let phi = DMatrix::from_columns(&[ones, xs, xs2]).cast::<f64>();
-    let pars = phi.svd(true,true).solve(&ys, 1e-13).unwrap();
+    let pars = phi.svd(true, true).solve(&ys, 1e-13).unwrap();
     let cnt = 26501365f64;
-    let data = DVector::from_column_slice(&[1f64, cnt, cnt*cnt]);
+    let data = DVector::from_column_slice(&[1f64, cnt, cnt * cnt]);
     pars.tr_mul(&data).get(0).unwrap().round() as i64
 }

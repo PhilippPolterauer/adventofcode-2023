@@ -57,7 +57,7 @@ struct Network {
     // names: Vec<String>,
     modules: Vec<Module>,
     outputs: Vec<Vec<usize>>,
-    inputs: Vec<Vec<usize>>,
+    // inputs: Vec<Vec<usize>>,
     highcnt: i64,
     lowcnt: i64,
 }
@@ -100,30 +100,6 @@ impl Network {
     }
     fn solution(&self) -> i64 {
         self.highcnt * self.lowcnt
-    }
-    fn print(&self) {
-        for m in self.modules.iter() {
-            match m {
-                // Module::Conjunction(conj) => {
-                //     for v in conj.levels.values() {
-                //         if *v {
-                //             print!("1")
-                //         } else {
-                //             print!("0")
-                //         }
-                //     }
-                // }
-                Module::FlipFlop(flip) => {
-                    if flip.state {
-                        print!("1")
-                    } else {
-                        print!("0")
-                    }
-                }
-                _ => (),
-            }
-        }
-        println!("");
     }
 }
 
@@ -208,7 +184,7 @@ fn parse_input1(input: &str) -> Network {
         idxmap,
         modules,
         outputs,
-        inputs,
+        // inputs,
         highcnt: 0,
         lowcnt: 0,
     }
@@ -240,8 +216,8 @@ pub fn part2(input: &str) -> i64 {
 
     // dbg!(&inputs);
     // for target in inputs {
-    let mut iterations = vec![0;4];
-    for i in 0..4 {
+    let mut iterations = vec![0; 4];
+    for (i, iter) in iterations.iter_mut().enumerate() {
         let mut lastit = 0;
         for _ in 0..5 {
             // dbg!(&network.modules[target]);
@@ -268,12 +244,10 @@ pub fn part2(input: &str) -> i64 {
                 //     done = *conj.levels.values().nth(0).unwrap();
                 // }
             }
-            iterations[i] = iteration;
-            dbg!(iteration-lastit);
-            lastit=iteration;
-
+            *iter = iteration;
+            dbg!(iteration - lastit);
+            lastit = iteration;
         }
-        
     }
     dbg!(&iterations);
     iterations.iter().product()
