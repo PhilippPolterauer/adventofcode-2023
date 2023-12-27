@@ -496,6 +496,78 @@ Solution: 122112157518711
 
 ```
 
+### Day 20
+
+#### Part 1
+
+```console
+$ adventofcode 20 1
+day: 20, part: 1
+loading data from 'data/day20/input1.txt'
+Duration: [..] us
+Solution: 374873
+
+```
+
+#### Part 2
+
+```console
+$ adventofcode 20 2
+day: 20, part: 2
+loading data from 'data/day20/input2.txt'
+Duration: [..] us
+Solution: 122112157518711
+
+```
+
+### Day 21
+
+#### Part 1
+
+```console
+$ adventofcode 21 1
+day: 21, part: 1
+loading data from 'data/day21/input1.txt'
+Duration: [..] us
+Solution: 374873
+
+```
+
+#### Part 2
+
+```console
+$ adventofcode 21 2
+day: 21, part: 2
+loading data from 'data/day21/input2.txt'
+Duration: [..] us
+Solution: 122112157518711
+
+```
+
+### Day 22
+
+#### Part 1
+
+```console
+$ adventofcode 22 1
+day: 22, part: 1
+loading data from 'data/day22/input1.txt'
+Duration: [..] us
+Solution: 374873
+
+```
+
+#### Part 2
+
+```console
+$ adventofcode 22 2
+day: 22, part: 2
+loading data from 'data/day22/input2.txt'
+Duration: [..] us
+Solution: 122112157518711
+
+```
+
 ## About
 
 Author: Philipp Polterauer
