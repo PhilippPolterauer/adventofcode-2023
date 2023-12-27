@@ -2,6 +2,7 @@ use core::panic;
 use std::collections::HashSet;
 use std::fs::File;
 use std::io::Write;
+use nalgebra::{DMatrix, DVector};
 
 use crate::util::*;
 
@@ -62,27 +63,27 @@ pub fn part2(input: &str) -> i64 {
     let mut ys = Vec::new();
     let mut xs = Vec::new();
 
-    for step in 1..4097 {
+    
+    for step in 1..5000 {
         front = take_step_inf(&matrix, &front);
-        if step % 2 == 1 {
+        if step%2==1{
             front = front.difference(&odd).copied().collect();
             odd.extend(front.iter());
+        }
+        if (step-65) % 262 == 0 {
             xs.push(step);
             ys.push(odd.len() as i32)
         }
-        dbg!(step);
     }
+    let xs = DVector::from_vec(xs);
+    let ys = DVector::from_vec(ys).cast::<f64>();
+    let mut ones = xs.clone();
+    ones.fill(1);
+    let xs2 = xs.clone().component_mul(&xs);
 
-    // Open or create a file for writing
-    let mut file = File::create("output.txt").unwrap();
-
-    // Integer values to write
-
-    // Iterate over the integers and write each one to a new line in the file
-    for (x,y) in xs.iter().zip(ys.iter()) {
-        writeln!(file, "{}, {}", x, y).unwrap();
-    }
-
-
-    0
+    let phi = DMatrix::from_columns(&[ones, xs, xs2]).cast::<f64>();
+    let pars = phi.svd(true,true).solve(&ys, 1e-13).unwrap();
+    let cnt = 26501365f64;
+    let data = DVector::from_column_slice(&[1f64, cnt, cnt*cnt]);
+    pars.tr_mul(&data).get(0).unwrap().round() as i64
 }

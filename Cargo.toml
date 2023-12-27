@@ -8,6 +8,9 @@ default-run = "adventofcode"
 name = "adventofcode"
 path = "src/main.rs"
 
+[dependencies]
+nalgebra = "0.32.3"
+
 [dependencies.clap]
 version = "4.4.10"
 features = ["derive"]
