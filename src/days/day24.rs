@@ -34,7 +34,6 @@ impl XYRay {
         if det == 0 {
             return None;
         }
-
         let (m1, q1) = line(xy1, v1);
         let (m2, q2) = line(xy2, v2);
 
@@ -43,6 +42,7 @@ impl XYRay {
 
         let tc1 = (xc - xy1.x as f64) / vx1 as f64;
         let tc2 = (xc - xy2.x as f64) / vx2 as f64;
+
         if tc1 < 0. || tc2 < 0. {
             return None;
         }
