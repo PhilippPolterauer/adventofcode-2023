@@ -1,5 +1,14 @@
+use nalgebra::Vector3;
 use std::ops::{Add, Mul};
 use std::ops::{Index, IndexMut};
+pub fn parse_vec3(string: &str) -> Vector3<i64> {
+    Vector3::from_iterator(
+        string
+            .trim()
+            .split(',')
+            .filter_map(|part| part.trim().parse::<i64>().ok()),
+    )
+}
 pub fn load_file(day: i32, part: i32, runtest: bool, data_path: &str) -> String {
     let teststr = if runtest { "test_" } else { "" };
 

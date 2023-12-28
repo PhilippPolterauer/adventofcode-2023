@@ -1,5 +1,5 @@
 use std::collections::{HashMap, HashSet};
-
+use crate::util::parse_vec3;
 use nalgebra::Vector3;
 type Position = Vector3<i64>;
 #[derive(Debug, Clone, Copy, PartialEq)]
@@ -105,13 +105,7 @@ impl BrickStack {
     }
 }
 
-fn parse_vec3(string: &str) -> Vector3<i64> {
-    Vector3::from_iterator(
-        string
-            .split(',')
-            .filter_map(|part| part.parse::<i64>().ok()),
-    )
-}
+
 
 fn parse_bricks(input: &str) -> Vec<(Position, Brick)> {
     input
