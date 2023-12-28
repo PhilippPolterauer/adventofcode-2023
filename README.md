@@ -42,7 +42,7 @@ all solutions are found below
 
 ### Day 1
 
-#### Part 1
+*Part 1*
 
 ```console
 $ adventofcode 1 1
@@ -53,7 +53,7 @@ Solution: 55447
 
 ```
 
-#### Part 2
+*Part 2*
 
 ```console
 $ adventofcode 1 2
@@ -66,7 +66,7 @@ Solution: 54706
 
 ### Day 2
 
-#### Part 1
+*Part 1*
 
 ```console
 $ adventofcode 2 1
@@ -77,7 +77,7 @@ Solution: 2348
 
 ```
 
-#### Part 2
+*Part 2*
 
 ```console
 $ adventofcode 2 2
@@ -90,7 +90,7 @@ Solution: 76008
 
 ### Day 3
 
-#### Part 1
+*Part 1*
 
 ```console
 $ adventofcode 3 1
@@ -101,7 +101,7 @@ Solution: 528799
 
 ```
 
-#### Part 2
+*Part 2*
 
 ```console
 $ adventofcode 3 2
@@ -114,7 +114,7 @@ Solution: 84907174
 
 ### Day 4
 
-#### Part 1
+*Part 1*
 
 ```console
 $ adventofcode 4 1
@@ -125,7 +125,7 @@ Solution: 20407
 
 ```
 
-#### Part 2
+*Part 2*
 
 ```console
 $ adventofcode 4 2
@@ -138,7 +138,7 @@ Solution: 23806951
 
 ### Day 5
 
-#### Part 1
+*Part 1*
 
 ```console
 $ adventofcode 5 1
@@ -149,7 +149,7 @@ Solution: 289863851
 
 ```
 
-#### Part 2
+*Part 2*
 
 ```console
 $ adventofcode 5 2
@@ -162,7 +162,7 @@ Solution: 60568880
 
 ### Day 6
 
-#### Part 1
+*Part 1*
 
 ```console
 $ adventofcode 6 1
@@ -173,7 +173,7 @@ Solution: 4811940
 
 ```
 
-#### Part 2
+*Part 2*
 
 ```console
 $ adventofcode 6 2
@@ -186,7 +186,7 @@ Solution: 30077773
 
 ### Day 7
 
-#### Part 1
+*Part 1*
 
 ```console
 $ adventofcode 7 1
@@ -197,7 +197,7 @@ Solution: 248179786
 
 ```
 
-#### Part 2
+*Part 2*
 
 ```console
 $ adventofcode 7 2
@@ -210,7 +210,7 @@ Solution: 247885995
 
 ### Day 8
 
-#### Part 1
+*Part 1*
 
 ```console
 $ adventofcode 8 1
@@ -221,7 +221,7 @@ Solution: 13939
 
 ```
 
-#### Part 2
+*Part 2*
 
 ```console
 $ adventofcode 8 2
@@ -234,7 +234,7 @@ Solution: 8906539031197
 
 ### Day 9
 
-#### Part 1
+*Part 1*
 
 ```console
 $ adventofcode 9 1
@@ -245,7 +245,7 @@ Solution: 1684566095
 
 ```
 
-#### Part 2
+*Part 2*
 
 ```console
 $ adventofcode 9 2
@@ -258,7 +258,7 @@ Solution: 1136
 
 ### Day 10
 
-#### Part 1
+*Part 1*
 
 ```console
 $ adventofcode 10 1
@@ -269,7 +269,7 @@ Solution: 7066
 
 ```
 
-#### Part 2
+*Part 2*
 
 ```console
 $ adventofcode 10 2
@@ -282,7 +282,7 @@ Solution: 401
 
 ### Day 11
 
-#### Part 1
+*Part 1*
 
 ```console
 $ adventofcode 11 1
@@ -293,7 +293,7 @@ Solution: 9965032
 
 ```
 
-#### Part 2
+*Part 2*
 
 ```console
 $ adventofcode 11 2
@@ -306,7 +306,7 @@ Solution: 550358864332
 
 ### Day 12
 
-#### Part 1
+*Part 1*
 
 ```console
 $ adventofcode 12 1
@@ -317,7 +317,7 @@ Solution: 7716
 
 ```
 
-#### Part 2
+*Part 2*
 
 ```console
 $ adventofcode 12 2
@@ -330,7 +330,7 @@ Solution: 18716325559999
 
 ### Day 13
 
-#### Part 1
+*Part 1*
 
 ```console
 $ adventofcode 13 1
@@ -341,7 +341,7 @@ Solution: 31400
 
 ```
 
-#### Part 2
+*Part 2*
 
 ```console
 $ adventofcode 13 2
@@ -354,7 +354,7 @@ Solution: 31739
 
 ### Day 14
 
-#### Part 1
+*Part 1*
 
 ```console
 $ adventofcode 14 1
@@ -365,7 +365,7 @@ Solution: 106186
 
 ```
 
-#### Part 2
+*Part 2*
 
 ```console
 $ adventofcode 14 2
@@ -378,7 +378,7 @@ Solution: 106390
 
 ### Day 15
 
-#### Part 1
+*Part 1*
 
 ```console
 $ adventofcode 15 1
@@ -389,7 +389,7 @@ Solution: 497373
 
 ```
 
-#### Part 2
+*Part 2*
 
 ```console
 $ adventofcode 15 2
@@ -402,7 +402,7 @@ Solution: 259356
 
 ### Day 16
 
-#### Part 1
+*Part 1*
 
 ```console
 $ adventofcode 16 1
@@ -413,7 +413,7 @@ Solution: 8112
 
 ```
 
-#### Part 2
+*Part 2*
 
 ```console
 $ adventofcode 16 2
@@ -426,7 +426,7 @@ Solution: 8314
 
 ### Day 17
 
-#### Part 1
+*Part 1*
 
 ```console
 $ adventofcode 17 1
@@ -437,7 +437,7 @@ Solution: 845
 
 ```
 
-#### Part 2
+*Part 2*
 
 ```console
 $ adventofcode 17 2
@@ -450,7 +450,7 @@ Solution: 993
 
 ### Day 18
 
-#### Part 1
+*Part 1*
 
 ```console
 $ adventofcode 18 1
@@ -461,7 +461,7 @@ Solution: 95356
 
 ```
 
-#### Part 2
+*Part 2*
 
 ```console
 $ adventofcode 18 2
@@ -474,7 +474,7 @@ Solution: 92291468914147
 
 ### Day 19
 
-#### Part 1
+*Part 1*
 
 ```console
 $ adventofcode 19 1
@@ -485,7 +485,7 @@ Solution: 374873
 
 ```
 
-#### Part 2
+*Part 2*
 
 ```console
 $ adventofcode 19 2
@@ -498,73 +498,97 @@ Solution: 122112157518711
 
 ### Day 20
 
-#### Part 1
+*Part 1*
 
 ```console
 $ adventofcode 20 1
 day: 20, part: 1
 loading data from 'data/day20/input1.txt'
 Duration: [..] us
-Solution: 374873
+Solution: 825896364
 
 ```
 
-#### Part 2
+*Part 2*
 
 ```console
 $ adventofcode 20 2
 day: 20, part: 2
 loading data from 'data/day20/input2.txt'
 Duration: [..] us
-Solution: 122112157518711
+Solution: 243566897206981
 
 ```
 
 ### Day 21
 
-#### Part 1
+*Part 1*
 
 ```console
 $ adventofcode 21 1
 day: 21, part: 1
 loading data from 'data/day21/input1.txt'
 Duration: [..] us
-Solution: 374873
+Solution: 3724
 
 ```
 
-#### Part 2
+*Part 2*
 
 ```console
 $ adventofcode 21 2
 day: 21, part: 2
 loading data from 'data/day21/input2.txt'
 Duration: [..] us
-Solution: 122112157518711
+Solution: 620348631910321
 
 ```
 
 ### Day 22
 
-#### Part 1
+*Part 1*
 
 ```console
 $ adventofcode 22 1
 day: 22, part: 1
 loading data from 'data/day22/input1.txt'
 Duration: [..] us
-Solution: 374873
+Solution: 499
 
 ```
 
-#### Part 2
+*Part 2*
 
 ```console
 $ adventofcode 22 2
 day: 22, part: 2
 loading data from 'data/day22/input2.txt'
 Duration: [..] us
-Solution: 122112157518711
+Solution: 95059
+
+```
+
+### Day 23
+
+*Part 1*
+
+```console
+$ adventofcode 23 1
+day: 23, part: 1
+loading data from 'data/day23/input1.txt'
+Duration: [..] us
+Solution: 2018
+
+```
+
+*Part 2*
+
+```console
+$ adventofcode 23 2
+day: 23, part: 2
+loading data from 'data/day23/input2.txt'
+Duration: [..] us
+Solution: 6406
 
 ```
 

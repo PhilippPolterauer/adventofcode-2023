@@ -3,8 +3,6 @@ use std::{
     vec,
 };
 
-
-
 use crate::util::*;
 
 #[derive(Debug, PartialEq, Clone)]
@@ -160,7 +158,10 @@ impl Graph {
                     maxdistance = *distance;
                 }
                 let edges = &self.edges[*node];
-                for next in edges.keys().filter(|next| !path.contains(next)) {
+                for next in edges.keys() {
+                    if path.contains(next) {
+                        continue;
+                    }
                     let distance = distance + edges[next];
                     let mut path = path.clone();
                     path.insert(*next);

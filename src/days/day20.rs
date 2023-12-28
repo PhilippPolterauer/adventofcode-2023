@@ -146,7 +146,6 @@ fn parse_input1(input: &str) -> Network {
             names.push(name.clone());
 
             idx += 1;
-            dbg!(name);
         }
     }
     for _ in 0..(idx - output_names.len()) {
@@ -212,16 +211,9 @@ pub fn part2(input: &str) -> i64 {
     let button = network.find("button");
     let target = network.find("zg");
 
-    // let tm = &;
-
-    // dbg!(&inputs);
-    // for target in inputs {
     let mut iterations = vec![0; 4];
     for (i, iter) in iterations.iter_mut().enumerate() {
-        let mut lastit = 0;
         for _ in 0..5 {
-            // dbg!(&network.modules[target]);
-
             let mut iteration = 0;
             let mut done = false;
             while !done {
@@ -240,15 +232,9 @@ pub fn part2(input: &str) -> i64 {
                         }
                     }
                 }
-                // if let Module::Conjunction(conj)= &network.modules[target]{
-                //     done = *conj.levels.values().nth(0).unwrap();
-                // }
             }
             *iter = iteration;
-            dbg!(iteration - lastit);
-            lastit = iteration;
         }
     }
-    dbg!(&iterations);
     iterations.iter().product()
 }

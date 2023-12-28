@@ -134,10 +134,9 @@ fn create_stack(input: &str) -> BrickStack {
 pub fn part1(input: &str) -> i64 {
     let stack = create_stack(input);
     let mut solution = 0;
-    for (idx, above) in stack.aboves.iter().enumerate() {
+    for above in stack.aboves.iter() {
         // if every of the above has more than one supports it can be disintegrated
         if above.iter().all(|ab| stack.belows[*ab].len() > 1) {
-            println!("index '{}' can be destroyed", idx);
             solution += 1;
         }
     }
