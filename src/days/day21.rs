@@ -30,7 +30,7 @@ impl MatrixElement for Plots {}
 fn take_step(matrix: &Matrix<Plots>, positions: &HashSet<MatrixIdx>) -> HashSet<MatrixIdx> {
     positions
         .iter()
-        .flat_map(|position| matrix.neighbour_idzs(position, |elem| elem != &Plots::Rock))
+        .flat_map(|position| matrix.neighbour_idzs_filt(position, |elem| elem != &Plots::Rock))
         .collect()
 }
 

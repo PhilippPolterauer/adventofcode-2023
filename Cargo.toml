@@ -24,8 +24,6 @@ assert_cmd = "2.0.12"
 criterion = "0.5.1"
 trycmd = "0.14.19"
 
-
 [[bench]]
 name = "benchmark"
 harness = false
-

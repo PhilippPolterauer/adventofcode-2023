@@ -1,3 +1,5 @@
+use std::ops::{Add, Mul};
+use std::ops::{Index, IndexMut};
 pub fn load_file(day: i32, part: i32, runtest: bool, data_path: &str) -> String {
     let teststr = if runtest { "test_" } else { "" };
 
@@ -5,10 +7,6 @@ pub fn load_file(day: i32, part: i32, runtest: bool, data_path: &str) -> String 
     println!("loading data from '{}'", path);
     std::fs::read_to_string(path).unwrap()
 }
-use std::ops::{Add, Mul};
-use std::ops::{Index, IndexMut};
-
-use nalgebra::SimdBool;
 
 #[derive(PartialEq, Clone, Copy, Hash, Eq, Debug)]
 pub enum Direction {
@@ -200,23 +198,29 @@ where
     //         })
     //         .collect()
     // }
-    pub fn neighbour_idzs<'a>(
+    pub fn neighbour_idzs_filt<'a>(
         &'a self,
-        position: &MatrixIdx,
+        idx: &MatrixIdx,
         condition: fn(&T) -> bool,
     ) -> Vec<MatrixIdx> {
         ALL_DIRECTIONS
             .iter()
             .filter_map(|dir| {
-                self.next(position, dir)
+                self.next(idx, dir)
                     .and_then(|idx| condition(&self[idx]).then_some(idx))
             })
             .collect()
     }
-    pub fn neighbour_idzs_dir<'a>(&'a self, position: &MatrixIdx) -> Vec<(MatrixIdx, Direction)> {
+    pub fn neighbour_idzs_dir(&self, idx: &MatrixIdx) -> Vec<(MatrixIdx, Direction)> {
         ALL_DIRECTIONS
             .iter()
-            .filter_map(|dir| self.next(position, dir).and_then(|idx| Some((idx, *dir))))
+            .filter_map(|dir| self.next(idx, dir).map(|idx| (idx, *dir)))
+            .collect()
+    }
+    pub fn neighbour_idzs(&self, idx: &MatrixIdx) -> Vec<MatrixIdx> {
+        ALL_DIRECTIONS
+            .iter()
+            .filter_map(|dir| self.next(idx, dir))
             .collect()
     }
     // fn empty(nrows: usize, ncols: usize) -> Self {
@@ -243,7 +247,7 @@ where
     pub fn width(&self) -> i64 {
         self.width
     }
-    fn next(&self, idx: &MatrixIdx, direction: &Direction) -> Option<MatrixIdx> {
+    pub fn next(&self, idx: &MatrixIdx, direction: &Direction) -> Option<MatrixIdx> {
         let n = self.height() - 1;
         let m = self.width - 1;
         let MatrixIdx { row, col } = idx;
@@ -294,6 +298,13 @@ where
             .iter()
             .enumerate()
             .find_map(|(idx, p)| (p == element).then_some(self.idx_from_lin(idx)))
+    }
+    pub fn findall(&self, condition: fn(&T) -> bool) -> Vec<MatrixIdx> {
+        self.data
+            .iter()
+            .enumerate()
+            .filter_map(|(idx, p)| condition(p).then_some(self.idx_from_lin(idx)))
+            .collect()
     }
 }
 

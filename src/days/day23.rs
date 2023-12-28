@@ -1,4 +1,9 @@
-use std::collections::{HashMap, HashSet};
+use std::{
+    collections::{HashMap, HashSet},
+    vec,
+};
+
+
 
 use crate::util::*;
 
@@ -45,10 +50,7 @@ fn state_input_valid(state: &State, input: &Direction, map: &Matrix<MapTile>) ->
 fn state_valid(state: &State, map: &Matrix<MapTile>) -> bool {
     let elem = &map[state.idx];
     use MapTile::*;
-    match elem {
-        Forest => false,
-        _ => true,
-    }
+    !matches!(elem, Forest)
 }
 
 impl MatrixElement for MapTile {}
@@ -102,6 +104,128 @@ pub fn part1(input: &str) -> i64 {
     }
     costmap[&goal]
 }
-pub fn part2(_input: &str) -> i64 {
-    0
+
+struct SearchState {
+    node: usize,
+    path: HashSet<usize>,
+    distance: usize,
+}
+
+#[derive(Debug)]
+struct Graph {
+    edges: Vec<HashMap<usize, usize>>,
+    num_nodes: usize,
+    nodes: HashMap<MatrixIdx, usize>,
+}
+impl Graph {
+    fn new() -> Self {
+        Self {
+            edges: vec![],
+            num_nodes: 0,
+            nodes: HashMap::new(),
+        }
+    }
+    fn add_node(&mut self, node: MatrixIdx) {
+        if let std::collections::hash_map::Entry::Vacant(e) = self.nodes.entry(node) {
+            e.insert(self.num_nodes);
+            self.num_nodes += 1;
+            self.edges.push(HashMap::new());
+        }
+    }
+    fn add_edge(&mut self, from: MatrixIdx, to: MatrixIdx, distance: usize) {
+        let nidx = self.nodes[&from];
+        let toidx = self.nodes[&to];
+        if let Some(old) = self.edges[nidx].insert(toidx, distance) {
+            assert_eq!(old, distance);
+        }
+    }
+    fn find_longest_path(&self, start: &MatrixIdx, goal: &MatrixIdx) -> usize {
+        let start = self.nodes[start];
+        let goal = self.nodes[goal];
+        let mut curr = vec![SearchState {
+            node: start,
+            path: HashSet::new(),
+            distance: 0,
+        }];
+        let mut maxdistance = 0;
+        while !curr.is_empty() {
+            let mut nexts = Vec::new();
+            for state in curr.iter() {
+                let SearchState {
+                    node,
+                    path,
+                    distance,
+                } = state;
+                if node == &goal && distance > &maxdistance {
+                    maxdistance = *distance;
+                }
+                let edges = &self.edges[*node];
+                for next in edges.keys().filter(|next| !path.contains(next)) {
+                    let distance = distance + edges[next];
+                    let mut path = path.clone();
+                    path.insert(*next);
+                    nexts.push(SearchState {
+                        node: *next,
+                        path,
+                        distance,
+                    })
+                }
+            }
+            curr = nexts;
+        }
+
+        maxdistance
+    }
+}
+
+fn next_elems(idx: &MatrixIdx, next: &MatrixIdx, map: &Matrix<MapTile>) -> Vec<MatrixIdx> {
+    map.neighbour_idzs(next)
+        .into_iter()
+        .filter(|nidx| map[*nidx] != MapTile::Forest && nidx != idx)
+        .collect()
+}
+
+fn find_path(idx: &MatrixIdx, next: &MatrixIdx, map: &Matrix<MapTile>) -> (MatrixIdx, usize) {
+    let mut idx = *idx;
+    let mut next = *next;
+    let mut nexts = next_elems(&idx, &next, map);
+    let mut cnt = 0;
+    while !nexts.is_empty() && nexts.len() == 1 {
+        cnt += 1;
+        idx = next;
+        next = nexts[0];
+        nexts = next_elems(&idx, &next, map);
+    }
+
+    (next, cnt + 1)
+}
+
+pub fn part2(input: &str) -> i64 {
+    // let mut costmap = HashMap::new();
+    let map = Matrix::<MapTile>::from_string(input);
+    let _visitmap: HashMap<MatrixIdx, HashSet<Vec<u8>>> = HashMap::new();
+    let start = MatrixIdx { col: 1, row: 0 };
+    let goal = MatrixIdx {
+        col: map.width() - 2,
+        row: map.height() - 1,
+    };
+
+    let idzs = map.findall(|e| e != &MapTile::Forest);
+
+    let mut graph = Graph::new();
+    for idx in idzs {
+        let neighbours = map.neighbour_idzs_filt(&idx, |e| e != &MapTile::Forest);
+
+        if neighbours.len() > 2 {
+            graph.add_node(idx);
+            for next in neighbours {
+                let (goal, distance) = find_path(&idx, &next, &map);
+                graph.add_node(goal);
+                graph.add_edge(idx, goal, distance);
+                graph.add_edge(goal, idx, distance);
+            }
+        }
+    }
+    graph.find_longest_path(&start, &goal) as i64
+    // costmap[&goal]
 }
