@@ -8,6 +8,8 @@ pub fn load_file(day: i32, part: i32, runtest: bool, data_path: &str) -> String 
 use std::ops::{Add, Mul};
 use std::ops::{Index, IndexMut};
 
+use nalgebra::SimdBool;
+
 #[derive(PartialEq, Clone, Copy, Hash, Eq, Debug)]
 pub enum Direction {
     Up,
@@ -23,6 +25,15 @@ impl Direction {
             'D' => Direction::Down,
             'L' => Direction::Left,
             _ => panic!("should not happen!"),
+        }
+    }
+    pub fn opposite(&self) -> Self {
+        use Direction::*;
+        match self {
+            Up => Down,
+            Down => Up,
+            Left => Right,
+            Right => Left,
         }
     }
 }
@@ -202,6 +213,12 @@ where
             })
             .collect()
     }
+    pub fn neighbour_idzs_dir<'a>(&'a self, position: &MatrixIdx) -> Vec<(MatrixIdx, Direction)> {
+        ALL_DIRECTIONS
+            .iter()
+            .filter_map(|dir| self.next(position, dir).and_then(|idx| Some((idx, *dir))))
+            .collect()
+    }
     // fn empty(nrows: usize, ncols: usize) -> Self {
     //     Self {
     //         data: vec![T::default(); nrows * ncols],
@@ -220,8 +237,11 @@ where
     // // fn rows(&self) -> FilterMap<std::ops::Range<i64>,Vec<T>> {
     // //     (0..self.height()).filter_map(|idx| self.row(idx))
     // // }
-    fn height(&self) -> i64 {
+    pub fn height(&self) -> i64 {
         self.data.len() as i64 / self.width
+    }
+    pub fn width(&self) -> i64 {
+        self.width
     }
     fn next(&self, idx: &MatrixIdx, direction: &Direction) -> Option<MatrixIdx> {
         let n = self.height() - 1;
