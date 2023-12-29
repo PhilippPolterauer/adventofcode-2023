@@ -211,7 +211,7 @@ pub fn part2(input: &str) -> i64 {
     let button = network.find("button");
     let target = network.find("zg");
 
-    let mut iterations = vec![0; 4];
+    let mut iterations = [0; 4];
     for (i, iter) in iterations.iter_mut().enumerate() {
         for _ in 0..5 {
             let mut iteration = 0;

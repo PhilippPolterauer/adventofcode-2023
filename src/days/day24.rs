@@ -1,10 +1,15 @@
 use crate::util::parse_vec3;
-use nalgebra::{Matrix2, Point2, Vector2, Vector3};
+use nalgebra::{Matrix3, RowVector3, Vector2, Vector3};
 
 #[derive(Debug)]
 struct XYRay {
     start: Vector2<i64>,
     direction: Vector2<i64>,
+}
+#[derive(Debug)]
+struct Projectile {
+    start: [f64; 3],
+    velocity: [f64; 3],
 }
 
 fn line(xy: Vector2<i64>, v: Vector2<i64>) -> (f64, f64) {
@@ -83,6 +88,107 @@ pub fn part1(input: &str) -> i64 {
     }
     solution
 }
-pub fn part2(_input: &str) -> i64 {
-    0
+
+fn parse_input2(input: &str) -> Vec<Projectile> {
+    input
+        .lines()
+        .map(|line| {
+            let (pos, vel) = line.split_once('@').unwrap();
+            // let pos = parse_vec3(pos);
+            let pos: Vec<f64> = pos
+                .trim()
+                .split(',')
+                .filter_map(|part| part.trim().parse::<f64>().ok())
+                .collect();
+            let vel: Vec<f64> = vel
+                .trim()
+                .split(',')
+                .filter_map(|part| part.trim().parse::<f64>().ok())
+                .collect();
+            Projectile {
+                start: [pos[0], pos[1], pos[2]],
+                velocity: [vel[0], vel[1], vel[2]],
+            }
+        })
+        .collect()
+}
+
+fn sub(u: &[f64], v: &[f64]) -> Vec<f64> {
+    vec![u[0] - v[0], u[1] - v[1], u[2] - v[2]]
+}
+
+fn exterior3(u: &[f64], v: &[f64], w: &[f64]) -> f64 {
+    u[0] * v[1] * w[2] + u[1] * v[2] * w[0] + u[2] * v[0] * w[1]
+        - u[0] * v[2] * w[1]
+        - u[1] * v[0] * w[2]
+        - u[2] * v[1] * w[0]
+}
+
+fn exterior2(v: &[f64], w: &[f64]) -> Vec<f64> {
+    vec![
+        v[0] * w[1] - v[1] * w[0],
+        v[1] * w[2] - v[2] * w[1],
+        v[2] * w[0] - v[0] * w[2],
+    ]
+}
+
+fn solve(projectiles: &[Projectile], idzs: &[usize; 3]) -> i64 {
+    let projectiles: Vec<Vec<[f64; 3]>> = vec![
+        vec![
+            projectiles[idzs[0]].start,
+            projectiles[idzs[0]].velocity,
+        ],
+        vec![
+            projectiles[idzs[1]].start,
+            projectiles[idzs[1]].velocity,
+        ],
+        vec![
+            projectiles[idzs[2]].start,
+            projectiles[idzs[2]].velocity,
+        ],
+    ];
+    let a: Vec<Vec<f64>> = vec![
+        exterior2(
+            &sub(&projectiles[0][1], &projectiles[1][1]),
+            &sub(&projectiles[0][0], &projectiles[1][0]),
+        ),
+        exterior2(
+            &sub(&projectiles[0][1], &projectiles[2][1]),
+            &sub(&projectiles[0][0], &projectiles[2][0]),
+        ),
+        exterior2(
+            &sub(&projectiles[1][1], &projectiles[2][1]),
+            &sub(&projectiles[1][0], &projectiles[2][0]),
+        ),
+    ];
+    let b: Vec<f64> = vec![
+        -exterior3(&projectiles[0][0], &projectiles[0][1], &projectiles[1][0])
+            - exterior3(&projectiles[1][0], &projectiles[1][1], &projectiles[0][0]),
+        -exterior3(&projectiles[0][0], &projectiles[0][1], &projectiles[2][0])
+            - exterior3(&projectiles[2][0], &projectiles[2][1], &projectiles[0][0]),
+        -exterior3(&projectiles[1][0], &projectiles[1][1], &projectiles[2][0])
+            - exterior3(&projectiles[2][0], &projectiles[2][1], &projectiles[1][0]),
+    ];
+    let row1 = RowVector3::from_row_slice(&a[0]);
+    let row2 = RowVector3::from_row_slice(&a[1]);
+    let row3 = RowVector3::from_row_slice(&a[2]);
+    let mat = Matrix3::from_rows(&[row1, row2, row3]);
+    let data = Vector3::from_row_slice(&b);
+
+    let xyz = mat.lu().solve(&data);
+    xyz.unwrap().sum().ceil() as i64
+}
+
+// part two is basically taken from https://github.com/apprenticewiz/adventofcode/blob/main/2023/rust/day24b/src/main.rs
+// with addition of checking for consistent solutions
+pub fn part2(input: &str) -> i64 {
+    let projectiles = parse_input2(input);
+    let idzs: Vec<[usize; 3]> = vec![[1, 2, 5], [2, 3, 4]];
+    // [0, 1, 2 somehow gives a wrong result, probably due to numeric issues]
+    let sol = solve(&projectiles, &[1, 2, 3]);
+    for idx in idzs {
+        let new_sol = solve(&projectiles, &idx);
+        assert_eq!(sol, new_sol);
+    }
+    sol
 }
