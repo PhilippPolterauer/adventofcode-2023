@@ -1,4 +1,4 @@
-# Adventofcode 2023
+# Advent of Code - 2023
 
 [![CI](https://github.com/PhilippPolterauer/adventofcode-2023/actions/workflows/ci.yaml/badge.svg)](https://github.com/PhilippPolterauer/adventofcode-2023/actions/workflows/ci.yaml)
 
@@ -589,6 +589,56 @@ day: 23, part: 2
 loading data from 'data/day23/input2.txt'
 Duration: [..] us
 Solution: 6406
+
+```
+
+### Day 24
+
+*Part 1*
+
+```console
+$ adventofcode 24 1
+day: 24, part: 1
+loading data from 'data/day24/input1.txt'
+Duration: [..] us
+Solution: 15558
+
+```
+
+*Part 2*
+
+```console
+$ adventofcode 24 2
+day: 24, part: 2
+loading data from 'data/day24/input2.txt'
+Duration: [..] us
+Solution: 765636044333842
+
+```
+
+### Day 25
+
+*Part 1*
+
+```console
+$ adventofcode 25 1
+day: 25, part: 1
+loading data from 'data/day25/input1.txt'
+Duration: [..] us
+Solution: 514794
+
+```
+
+*Part 2*
+
+```console
+$ adventofcode 25 2
+? 101
+day: 25, part: 2
+loading data from 'data/day25/input2.txt'
+thread 'main' panicked at src/util.rs:18:35:
+called `Result::unwrap()` on an `Err` value: Os { code: 2, kind: NotFound, message: "No such file or directory" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 
 ```
 

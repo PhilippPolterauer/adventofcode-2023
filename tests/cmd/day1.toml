@@ -1,7 +1,0 @@
-bin.name = "adventofcode"
-args = ["1", "1"]
-
-[env.add]
-write = "file.txt = Goodbye\r\nWorld\r\n"
-cat = "file.txt"
-stdout = "Hello\r\nWorld!\r\n"
