@@ -134,18 +134,9 @@ fn exterior2(v: &[f64], w: &[f64]) -> Vec<f64> {
 
 fn solve(projectiles: &[Projectile], idzs: &[usize; 3]) -> i64 {
     let projectiles: Vec<Vec<[f64; 3]>> = vec![
-        vec![
-            projectiles[idzs[0]].start,
-            projectiles[idzs[0]].velocity,
-        ],
-        vec![
-            projectiles[idzs[1]].start,
-            projectiles[idzs[1]].velocity,
-        ],
-        vec![
-            projectiles[idzs[2]].start,
-            projectiles[idzs[2]].velocity,
-        ],
+        vec![projectiles[idzs[0]].start, projectiles[idzs[0]].velocity],
+        vec![projectiles[idzs[1]].start, projectiles[idzs[1]].velocity],
+        vec![projectiles[idzs[2]].start, projectiles[idzs[2]].velocity],
     ];
     let a: Vec<Vec<f64>> = vec![
         exterior2(

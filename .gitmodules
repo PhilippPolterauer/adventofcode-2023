@@ -1,0 +1,3 @@
+[submodule "data"]
+	path = data
+	url = https://github.com/PhilippPolterauer/adventofcode-2023-data.git

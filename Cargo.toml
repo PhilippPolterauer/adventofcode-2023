@@ -9,7 +9,7 @@ name = "adventofcode"
 path = "src/main.rs"
 
 [dependencies]
-nalgebra = "0.32.3"
+nalgebra = { version = "0.32.3", features = ["sparse"] }
 
 [dependencies.clap]
 version = "4.4.10"

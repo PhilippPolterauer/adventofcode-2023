@@ -1,7 +1,4 @@
-use std::{
-    collections::{HashMap, HashSet},
-    vec,
-};
+use std::collections::{HashMap, HashSet};
 
 use crate::util::*;
 
@@ -103,82 +100,6 @@ pub fn part1(input: &str) -> i64 {
     costmap[&goal]
 }
 
-struct SearchState {
-    node: usize,
-    path: HashSet<usize>,
-    distance: usize,
-}
-
-#[derive(Debug)]
-struct Graph {
-    edges: Vec<HashMap<usize, usize>>,
-    num_nodes: usize,
-    nodes: HashMap<MatrixIdx, usize>,
-}
-impl Graph {
-    fn new() -> Self {
-        Self {
-            edges: vec![],
-            num_nodes: 0,
-            nodes: HashMap::new(),
-        }
-    }
-    fn add_node(&mut self, node: MatrixIdx) {
-        if let std::collections::hash_map::Entry::Vacant(e) = self.nodes.entry(node) {
-            e.insert(self.num_nodes);
-            self.num_nodes += 1;
-            self.edges.push(HashMap::new());
-        }
-    }
-    fn add_edge(&mut self, from: MatrixIdx, to: MatrixIdx, distance: usize) {
-        let nidx = self.nodes[&from];
-        let toidx = self.nodes[&to];
-        if let Some(old) = self.edges[nidx].insert(toidx, distance) {
-            assert_eq!(old, distance);
-        }
-    }
-    fn find_longest_path(&self, start: &MatrixIdx, goal: &MatrixIdx) -> usize {
-        let start = self.nodes[start];
-        let goal = self.nodes[goal];
-        let mut curr = vec![SearchState {
-            node: start,
-            path: HashSet::new(),
-            distance: 0,
-        }];
-        let mut maxdistance = 0;
-        while !curr.is_empty() {
-            let mut nexts = Vec::new();
-            for state in curr.iter() {
-                let SearchState {
-                    node,
-                    path,
-                    distance,
-                } = state;
-                if node == &goal && distance > &maxdistance {
-                    maxdistance = *distance;
-                }
-                let edges = &self.edges[*node];
-                for next in edges.keys() {
-                    if path.contains(next) {
-                        continue;
-                    }
-                    let distance = distance + edges[next];
-                    let mut path = path.clone();
-                    path.insert(*next);
-                    nexts.push(SearchState {
-                        node: *next,
-                        path,
-                        distance,
-                    })
-                }
-            }
-            curr = nexts;
-        }
-
-        maxdistance
-    }
-}
-
 fn next_elems(idx: &MatrixIdx, next: &MatrixIdx, map: &Matrix<MapTile>) -> Vec<MatrixIdx> {
     map.neighbour_idzs(next)
         .into_iter()
@@ -222,8 +143,8 @@ pub fn part2(input: &str) -> i64 {
             for next in neighbours {
                 let (goal, distance) = find_path(&idx, &next, &map);
                 graph.add_node(goal);
-                graph.add_edge(idx, goal, distance);
-                graph.add_edge(goal, idx, distance);
+                graph.add_edge(&idx, &goal, distance);
+                graph.add_edge(&goal, &idx, distance);
             }
         }
     }
