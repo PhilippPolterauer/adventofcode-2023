@@ -633,12 +633,11 @@ Solution: 514794
 
 ```console
 $ adventofcode 25 2
-? 101
 day: 25, part: 2
 loading data from 'data/day25/input2.txt'
-thread 'main' panicked at src/util.rs:18:35:
-called `Result::unwrap()` on an `Err` value: Os { code: 2, kind: NotFound, message: "No such file or directory" }
-note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+done!
+Duration: 16 us
+Solution: 0
 
 ```
 
