@@ -636,7 +636,7 @@ $ adventofcode 25 2
 day: 25, part: 2
 loading data from 'data/day25/input2.txt'
 done!
-Duration: 16 us
+Duration: [..] us
 Solution: 0
 
 ```
